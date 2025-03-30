@@ -21,6 +21,10 @@
     "implicit-arrow-linebreak": "off",
     "operator-linebreak": "off",
     "react/require-default-props": "off",
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "@typescript-eslint/indent": "warn",
+    "no-console": "warn",
+    "@next/next/no-img-element": "warn",
+    "react/no-danger": "warn"
   }
 }
