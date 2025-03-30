@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/db/supabase/client';
+import type { NavigationCategory } from '@/db/supabase/types';
 
 import crawler from './crawler';
 
@@ -62,7 +63,7 @@ export async function POST(req: NextRequest) {
     const firstSubmitData = submitList[0];
     const res = await crawler({
       url: firstSubmitData.url!,
-      tags: categoryList!.map((item) => item.name),
+      tags: categoryList!.map((item: NavigationCategory) => item.name),
       callback_url: callbackUrl,
       key: cronKey,
     });

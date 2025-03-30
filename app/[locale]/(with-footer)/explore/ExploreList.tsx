@@ -1,4 +1,5 @@
 import { createClient } from '@/db/supabase/client';
+import type { NavigationCategory } from '@/db/supabase/types';
 
 import SearchForm from '@/components/home/SearchForm';
 import BasePagination from '@/components/page/BasePagination';
@@ -32,7 +33,7 @@ export default async function ExploreList({ pageNum }: { pageNum?: string }) {
       </div>
       <div className='mb-10 mt-5'>
         <TagList
-          data={categoryList!.map((item) => ({
+          data={categoryList!.map((item: NavigationCategory) => ({
             id: String(item.id),
             name: item.name,
             href: `/category/${item.name}`,
