@@ -12,8 +12,43 @@ const handleServiceError = (
   return defaultReturn;
 };
 
+// 获取当前语言的内容
+const getLocalizedField = (item: any, field: string, locale: string = 'cn') => {
+  // 如果有多语言字段并且包含当前语言的内容，则返回对应语言的内容
+  if (item[`${field}_translations`] && item[`${field}_translations`][locale]) {
+    return item[`${field}_translations`][locale];
+  }
+  // 否则返回默认内容
+  return item[field];
+};
+
+// 处理博客文章的多语言内容
+const processPostWithLocale = (post: any, locale: string = 'cn') => {
+  if (!post) return post;
+
+  return {
+    ...post,
+    title: getLocalizedField(post, 'title', locale),
+    content: getLocalizedField(post, 'content', locale),
+    excerpt: getLocalizedField(post, 'excerpt', locale),
+    // 如果作者信息存在，也处理作者的多语言内容
+    blog_author: post.blog_author
+      ? {
+          ...post.blog_author,
+          bio: getLocalizedField(post.blog_author, 'bio', locale),
+        }
+      : null,
+  };
+};
+
+// 处理博客文章列表的多语言内容
+const processPostsWithLocale = (posts: any[], locale: string = 'cn') => {
+  if (!posts) return [];
+  return posts.map((post) => processPostWithLocale(post, locale));
+};
+
 // 获取所有已发布的博客文章（分页）
-export async function getBlogPosts(page = 1, limit = 10) {
+export async function getBlogPosts(page = 1, limit = 10, locale: string = 'cn') {
   try {
     const supabase = await createServerComponentClient();
     const offset = (page - 1) * limit;
@@ -33,14 +68,17 @@ export async function getBlogPosts(page = 1, limit = 10) {
       throw error;
     }
 
-    return { posts: posts || [], count: count || 0 };
+    // 处理多语言内容
+    const localizedPosts = processPostsWithLocale(posts || [], locale);
+
+    return { posts: localizedPosts, count: count || 0 };
   } catch (err) {
-    return handleServiceError('getBlogPosts', err, { posts: [], count: 0 }, { page, limit });
+    return handleServiceError('getBlogPosts', err, { posts: [], count: 0 }, { page, limit, locale });
   }
 }
 
 // 获取单篇博客文章
-export async function getBlogPostBySlug(slug: string) {
+export async function getBlogPostBySlug(slug: string, locale: string = 'cn') {
   try {
     const supabase = await createServerComponentClient();
 
@@ -65,14 +103,15 @@ export async function getBlogPostBySlug(slug: string) {
       console.error('Error updating view count:', updateError);
     }
 
-    return post;
+    // 处理多语言内容
+    return processPostWithLocale(post, locale);
   } catch (err) {
-    return handleServiceError('getBlogPostBySlug', err, null, { slug });
+    return handleServiceError('getBlogPostBySlug', err, null, { slug, locale });
   }
 }
 
 // 获取热门博客文章
-export async function getPopularBlogPosts(limit = 5) {
+export async function getPopularBlogPosts(limit = 5, locale: string = 'cn') {
   try {
     const supabase = await createServerComponentClient();
 
@@ -87,17 +126,18 @@ export async function getPopularBlogPosts(limit = 5) {
       throw error;
     }
 
-    return posts || [];
+    // 处理多语言内容
+    return processPostsWithLocale(posts || [], locale);
   } catch (err) {
-    return handleServiceError('getPopularBlogPosts', err, [], { limit });
+    return handleServiceError('getPopularBlogPosts', err, [], { limit, locale });
   }
 }
 
 // 获取相关博客文章（基于标签）
-export async function getRelatedBlogPosts(currentPostSlug: string, tags: string[], limit = 3) {
+export async function getRelatedBlogPosts(currentPostSlug: string, tags: string[], limit = 3, locale: string = 'cn') {
   try {
     if (!tags || tags.length === 0) {
-      return await getPopularBlogPosts(limit);
+      return await getPopularBlogPosts(limit, locale);
     }
 
     const supabase = await createServerComponentClient();
@@ -118,7 +158,7 @@ export async function getRelatedBlogPosts(currentPostSlug: string, tags: string[
 
     if (!posts || posts.length < limit) {
       // 如果相关文章不足，则补充热门文章
-      const popularPosts = await getPopularBlogPosts(limit);
+      const popularPosts = await getPopularBlogPosts(limit, locale);
 
       if (!posts) {
         return popularPosts.filter((post: any) => post.slug !== currentPostSlug).slice(0, limit);
@@ -130,16 +170,20 @@ export async function getRelatedBlogPosts(currentPostSlug: string, tags: string[
         (post: any) => post.slug !== currentPostSlug && !existingSlugs.has(post.slug),
       );
 
-      return [...posts, ...additionalPosts].slice(0, limit);
+      // 处理多语言内容
+      const localizedPosts = processPostsWithLocale(posts, locale);
+      return [...localizedPosts, ...additionalPosts].slice(0, limit);
     }
 
-    return posts;
+    // 处理多语言内容
+    return processPostsWithLocale(posts, locale);
   } catch (err) {
     // 如果出错，返回热门文章
-    return handleServiceError('getRelatedBlogPosts', err, await getPopularBlogPosts(limit), {
+    return handleServiceError('getRelatedBlogPosts', err, await getPopularBlogPosts(limit, locale), {
       currentPostSlug,
       tags,
       limit,
+      locale,
     });
   }
 }
@@ -194,7 +238,7 @@ export const submitComment = async (comment: Omit<BlogComment, 'id' | 'created_a
 };
 
 // 按标签获取文章
-export async function getBlogPostsByTag(tag: string, page = 1, limit = 10) {
+export async function getBlogPostsByTag(tag: string, page = 1, limit = 10, locale: string = 'cn') {
   try {
     const supabase = await createServerComponentClient();
     const offset = (page - 1) * limit;
@@ -215,9 +259,12 @@ export async function getBlogPostsByTag(tag: string, page = 1, limit = 10) {
       throw error;
     }
 
-    return { posts: posts || [], count: count || 0 };
+    // 处理多语言内容
+    const localizedPosts = processPostsWithLocale(posts || [], locale);
+
+    return { posts: localizedPosts, count: count || 0 };
   } catch (err) {
-    return handleServiceError('getBlogPostsByTag', err, { posts: [], count: 0 }, { tag, page, limit });
+    return handleServiceError('getBlogPostsByTag', err, { posts: [], count: 0 }, { tag, page, limit, locale });
   }
 }
 

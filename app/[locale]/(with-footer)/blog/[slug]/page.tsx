@@ -20,7 +20,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = await getBlogPostBySlug(params.slug);
+  const post = await getBlogPostBySlug(params.slug, params.locale);
   const t = await getTranslations('Blog');
 
   if (!post) {
@@ -37,8 +37,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // 博客文章内容组件
-async function BlogPostContent({ slug }: { slug: string }) {
-  const post = (await getBlogPostBySlug(slug)) as BlogPostWithAuthor;
+async function BlogPostContent({ slug, locale }: { slug: string; locale: string }) {
+  const post = await getBlogPostBySlug(slug, locale);
   const t = await getTranslations('Blog');
 
   if (!post) {
@@ -120,9 +120,9 @@ function renderRelatedPosts(t: any, posts: BlogPostWithAuthor[], currentSlug: st
 }
 
 // 相关文章组件
-async function RelatedPosts({ slug }: { slug: string }) {
+async function RelatedPosts({ slug, locale }: { slug: string; locale: string }) {
   const t = await getTranslations('Blog');
-  const post = (await getBlogPostBySlug(slug)) as BlogPostWithAuthor;
+  const post = await getBlogPostBySlug(slug, locale);
 
   // 如果找不到文章或文章没有标签，则显示热门文章
   if (!post || !post.tags || post.tags.length === 0) {
@@ -135,7 +135,7 @@ async function RelatedPosts({ slug }: { slug: string }) {
   }
 
   // 使用文章标签查找相关文章
-  const relatedPosts = (await getRelatedBlogPosts(slug, post.tags, 3)) as BlogPostWithAuthor[];
+  const relatedPosts = (await getRelatedBlogPosts(slug, post.tags, 3, locale)) as BlogPostWithAuthor[];
 
   if (!relatedPosts || relatedPosts.length === 0) {
     return null;
@@ -180,6 +180,7 @@ function LoadingState() {
 // 主页面组件
 export default async function BlogPostPage({ params }: Props) {
   const t = await getTranslations('Blog');
+  const locale = params.locale || 'cn';
 
   return (
     <div className='mx-auto max-w-pc px-4 py-8'>
@@ -190,8 +191,8 @@ export default async function BlogPostPage({ params }: Props) {
       </div>
 
       <Suspense fallback={<LoadingState />}>
-        <BlogPostContent slug={params.slug} />
-        <RelatedPosts slug={params.slug} />
+        <BlogPostContent slug={params.slug} locale={locale} />
+        <RelatedPosts slug={params.slug} locale={locale} />
       </Suspense>
     </div>
   );

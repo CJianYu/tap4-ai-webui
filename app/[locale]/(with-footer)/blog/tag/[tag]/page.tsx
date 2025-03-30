@@ -58,9 +58,10 @@ export default async function BlogTagPage({ params, searchParams }: Props) {
   const t = await getTranslations('Blog');
   const tag = decodeURIComponent(params.tag);
   const page = parseInt(searchParams.page || '1', 10);
+  const locale = params.locale || 'cn';
 
   // 获取文章数据
-  const { posts, count } = await getBlogPostsByTag(tag, page);
+  const { posts, count } = await getBlogPostsByTag(tag, page, 10, locale);
 
   // 计算总页数
   const totalPages = Math.ceil(count / 10);

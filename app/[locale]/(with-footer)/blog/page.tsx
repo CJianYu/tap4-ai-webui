@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import type { BlogAuthor, BlogPost } from '@/db/supabase/types';
 import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 
 import { RevalidateOneDay } from '@/lib/constants';
 import { getBlogPosts, getPopularBlogPosts } from '@/lib/services/blog-service';
@@ -14,10 +15,20 @@ type BlogPostWithAuthor = BlogPost & {
 
 export const revalidate = RevalidateOneDay;
 
-export async function generateMetadata(): Promise<Metadata> {
+type Props = {
+  params: { locale: string };
+  searchParams: { page?: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const t = await getTranslations({
+    locale: params.locale,
+    namespace: 'Metadata.blog',
+  });
+
   return {
-    title: 'Blog - AI Save World',
-    description: 'Latest updates, news, and insights from AI Save World',
+    title: t('title'),
+    description: t('description'),
   };
 }
 
@@ -61,9 +72,9 @@ async function PopularPostsSection() {
 }
 
 // 博客文章列表组件
-async function BlogPostsList({ page }: { page: number }) {
-  const t = useTranslations('Blog');
-  const { posts, count } = await getBlogPosts(page);
+async function BlogPostsList({ page, locale }: { page: number; locale: string }) {
+  const t = await getTranslations('Blog');
+  const { posts, count } = await getBlogPosts(page, 10, locale);
 
   // 计算总页数
   const totalPages = Math.ceil(count / 10);
@@ -209,9 +220,10 @@ function LoadingState() {
 }
 
 // 主页面组件
-export default function BlogHomePage({ searchParams }: { searchParams: { page?: string } }) {
+export default function BlogHomePage({ params, searchParams }: Props) {
   const t = useTranslations('Blog');
   const page = parseInt(searchParams.page || '1', 10);
+  const locale = params.locale || 'cn';
 
   return (
     <div className='mx-auto max-w-pc px-4 py-8'>
@@ -222,7 +234,7 @@ export default function BlogHomePage({ searchParams }: { searchParams: { page?: 
         <PopularPostsSection />
 
         {/* 文章列表 */}
-        <BlogPostsList page={page} />
+        <BlogPostsList page={page} locale={locale} />
       </Suspense>
     </div>
   );
