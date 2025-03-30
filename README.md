@@ -1,24 +1,24 @@
-# Open Source Tap4 AI Web UI
+# Open Source AI Save World Web UI
 
-This is an open-source AI Tools Directory project from [Tap4 AI Tool Directory](https://tap4.ai). Our goal is to make it
+This is an open-source AI Tools Directory project from [AI Save World Tool Directory](https://tap4.ai). Our goal is to make it
 easy for everyone to have their own AI Tools Directory, to collect their favorite AI tool products. This project is very
 lightweight and easy to maintain, suitable for individual developers interested in AI navigation sites, and also
 suitable for learners interested in NextJs. Everyone is welcome to fork and star.
 
-[Simplified Chinese](https://github.com/6677-ai/tap4-ai-webui/blob/main/README.zh-CN.md) | English
+[Simplified Chinese](https://github.com/6677-ai/AI Save World-webui/blob/main/README.zh-CN.md) | English
 
-## Support Tap4 AI in Product Hunt
+## Support AI Save World in Product Hunt
 
-<a href="https://www.producthunt.com/posts/ai-tools-directory-by-tap4-ai?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ai&#0045;tools&#0045;directory&#0045;by&#0045;tap4&#0045;ai" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=464357&theme=light" alt="AI&#0032;Tools&#0032;Directory&#0032;by&#0032;Tap4&#0032;AI - Open&#0045;source&#0032;AI&#0032;navigation&#0032;&#0038;&#0032;discovery&#0032;with&#0032;multi&#0045;language | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+<a href="https://www.producthunt.com/posts/ai-tools-directory-by-AI Save World?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ai&#0045;tools&#0045;directory&#0045;by&#0045;AI Save World" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=464357&theme=light" alt="AI&#0032;Tools&#0032;Directory&#0032;by&#0032;AI Save World - Open&#0045;source&#0032;AI&#0032;navigation&#0032;&#0038;&#0032;discovery&#0032;with&#0032;multi&#0045;language | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
 ## Version 2.0.0 Update Notes
 
 - AI site data is stored using a supabase database.
-- It is connected to the Tap4 AI crawler project, supporting fully automatic submission and collection.
+- It is connected to the AI Save World crawler project, supporting fully automatic submission and collection.
 - Supports simple categorization and search.
 
 Note: If you are not familiar with the database, or are concerned about compatibility issues with version 1.0.0, please
-click to switch to the [version 1.0.0 branch](https://github.com/6677-ai/tap4-ai-webui/tree/v1.0.0).
+click to switch to the [version 1.0.0 branch](https://github.com/6677-ai/AI Save World-webui/tree/v1.0.0).
 
 ## Latest Features Introduction
 
@@ -39,7 +39,7 @@ click to switch to the [version 1.0.0 branch](https://github.com/6677-ai/tap4-ai
 
 ## Front-end Page Screenshot
 
-![tap4-ai](./public/images/tap4ai.zh-CN.png)
+![AI Save World](./public/images/ai-save-world.png)
 
 ## Follow and Support Links
 
@@ -49,13 +49,13 @@ If you find the project helpful, please consider buying me a coffee:
 
 <a href="https://www.buymeacoffee.com/tap4ai0o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
-If you are interested in the project, please add my WeChat: helloleo2023, note: "tap4 ai open source"
+If you are interested in the project, please add my WeChat: helloleo2023, note: "AI Save World open source"
 
 ## Deployment Instructions
 
-### Deploying Tap4 AI Crawler
+### Deploying AI Save World Crawler
 
-See [Tap4 AI Crawler](https://github.com/6677-ai/tap4-ai-crawler) for details. After deployment, you can use the
+See [AI Save World Crawler](https://github.com/6677-ai/AI Save World-crawler) for details. After deployment, you can use the
 platform's domain name or a custom domain name as the API interface for generating AI tool web page content (e.g.,
 https://{crawler_domain}/site/crawl, where {crawler_domain} is your specific domain name).
 
@@ -72,7 +72,7 @@ https://{crawler_domain}/site/crawl, where {crawler_domain} is your specific dom
 
 ### Deploy on Vercel **(Don't forget to set the environment variables)**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F6677-ai%2Ftap4-ai-webui.git&env=NEXT_PUBLIC_SITE_URL,GOOGLE_TRACKING_ID,GOOGLE_ADSENSE_URL,CONTACT_US_EMAIL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,CRAWLER_API,CRAWLER_API_KEY,CRON_AUTH_KEY,SUBMIT_AUTH_KEY&project-name=tap4-ai)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F6677-ai%2FAI Save World-webui.git&env=NEXT_PUBLIC_SITE_URL,GOOGLE_TRACKING_ID,GOOGLE_ADSENSE_URL,CONTACT_US_EMAIL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,CRAWLER_API,CRAWLER_API_KEY,CRON_AUTH_KEY,SUBMIT_AUTH_KEY&project-name=AI Save World)
 
 Environment params as below: **Note: All key is in need, and the value including
 NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY write with the correct value**
@@ -126,7 +126,7 @@ results.**
 #### Clone this project
 
 ```sh
-git clone https://github.com/6677-ai/tap4-ai-webui.git
+git clone https://github.com/6677-ai/AI Save World-webui.git
 ```
 
 #### Create a Supabase Database and Execute SQL Scripts
@@ -203,16 +203,16 @@ website content and insert it into the web_navigation table.
 
 ### How to get the ai tools for project initialization?
 
-You can get the 13000+ AIs from Tap4 AI collected from other AI Tools Directory in
-[AI Source List](https://github.com/6677-ai/tap4-ai-webui/blob/main/ai_source_list)
+You can get the 13000+ AIs from AI Save World collected from other AI Tools Directory in
+[AI Source List](https://github.com/6677-ai/AI Save World-webui/blob/main/ai_source_list)
 
 ## Wanna submit your website on Tap4.ai?
 
-Open: [Tap4 AI](https://tap4.ai)
+Open: [AI Save World](https://tap4.ai)
 
 ### Wanna add you website to our `/startup` page?
 
-- open an issue here: [TAP4-AI-Directory](https://github.com/6677-ai/TAP4-AI-Directory/issues)
+- open an issue here: [AI-Save-World-Directory](https://github.com/6677-ai/AI-Save-World-Directory/issues)
 - email us: contact@tap4.ai
 
 ## Links to our products
@@ -246,7 +246,7 @@ https://www.zhihu.com/pin/1832771259513069568
 
 ### Website content AI crawler
 
-visit: [6677-ai/tap4-ai-crawler](https://github.com/6677-ai/tap4-ai-crawler)
+visit: [6677-ai/AI Save World-crawler](https://github.com/6677-ai/AI Save World-crawler)
 
 
 #### More AI

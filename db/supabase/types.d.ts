@@ -112,6 +112,137 @@ export type Database = {
         };
         Relationships: [];
       };
+      blog_post: {
+        Row: {
+          id: number;
+          title: string;
+          slug: string;
+          content: string;
+          excerpt: string | null;
+          featured_image: string | null;
+          author_id: number | null;
+          published_at: string | null;
+          created_at: string;
+          updated_at: string;
+          status: number | null;
+          view_count: number | null;
+          tags: string[] | null;
+        };
+        Insert: {
+          id?: number;
+          title: string;
+          slug: string;
+          content: string;
+          excerpt?: string | null;
+          featured_image?: string | null;
+          author_id?: number | null;
+          published_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          status?: number | null;
+          view_count?: number | null;
+          tags?: string[] | null;
+        };
+        Update: {
+          id?: number;
+          title?: string;
+          slug?: string;
+          content?: string;
+          excerpt?: string | null;
+          featured_image?: string | null;
+          author_id?: number | null;
+          published_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+          status?: number | null;
+          view_count?: number | null;
+          tags?: string[] | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'fk_blog_post_author';
+            columns: ['author_id'];
+            referencedRelation: 'blog_author';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      blog_author: {
+        Row: {
+          id: number;
+          name: string;
+          bio: string | null;
+          avatar: string | null;
+          email: string | null;
+          website: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: number;
+          name: string;
+          bio?: string | null;
+          avatar?: string | null;
+          email?: string | null;
+          website?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: number;
+          name?: string;
+          bio?: string | null;
+          avatar?: string | null;
+          email?: string | null;
+          website?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      blog_comment: {
+        Row: {
+          id: number;
+          post_slug: string;
+          author_name: string;
+          author_email: string | null;
+          content: string;
+          parent_id: number | null;
+          created_at: string;
+          status: number | null;
+        };
+        Insert: {
+          id?: number;
+          post_slug: string;
+          author_name: string;
+          author_email?: string | null;
+          content: string;
+          parent_id?: number | null;
+          created_at?: string;
+          status?: number | null;
+        };
+        Update: {
+          id?: number;
+          post_slug?: string;
+          author_name?: string;
+          author_email?: string | null;
+          content?: string;
+          parent_id?: number | null;
+          created_at?: string;
+          status?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'blog_comment_post_slug_fkey';
+            columns: ['post_slug'];
+            referencedRelation: 'blog_post';
+            referencedColumns: ['slug'];
+          },
+          {
+            foreignKeyName: 'blog_comment_parent_id_fkey';
+            columns: ['parent_id'];
+            referencedRelation: 'blog_comment';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
     };
     Views: {
       [_ in never]: never;
@@ -131,6 +262,9 @@ export type Database = {
 export type NavigationCategory = Database['public']['Tables']['navigation_category']['Row'];
 export type Submit = Database['public']['Tables']['submit']['Row'];
 export type WebNavigation = Database['public']['Tables']['web_navigation']['Row'];
+export type BlogPost = Database['public']['Tables']['blog_post']['Row'];
+export type BlogAuthor = Database['public']['Tables']['blog_author']['Row'];
+export type BlogComment = Database['public']['Tables']['blog_comment']['Row'];
 
 type PublicSchema = Database[Extract<keyof Database, 'public'>];
 

@@ -11,6 +11,10 @@ export const NAV_LINKS = [
     code: 'startup',
     href: '/startup',
   },
+  {
+    code: 'blog',
+    href: '/blog',
+  },
 ];
 
 export const RevalidateOneHour = 3600;

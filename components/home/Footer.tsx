@@ -54,7 +54,7 @@ export default function Footer() {
     },
     {
       title: t('tap4'),
-      href: 'https://tap4.ai/',
+      href: 'https://ai-save-world.com/',
     },
     {
       title: t('tattoo'),
