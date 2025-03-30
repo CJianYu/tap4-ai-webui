@@ -2,10 +2,16 @@ import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { BlogAuthor, BlogPost } from '@/db/supabase/types';
 import { getTranslations } from 'next-intl/server';
 
 import { RevalidateOneDay } from '@/lib/constants';
 import { getBlogPostBySlug, getPopularBlogPosts, getRelatedBlogPosts } from '@/lib/services/blog-service';
+
+// 扩展 BlogPost 类型以包含 blog_author
+type BlogPostWithAuthor = BlogPost & {
+  blog_author?: BlogAuthor;
+};
 
 export const revalidate = RevalidateOneDay;
 
@@ -32,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 // 博客文章内容组件
 async function BlogPostContent({ slug }: { slug: string }) {
-  const post = await getBlogPostBySlug(slug);
+  const post = (await getBlogPostBySlug(slug)) as BlogPostWithAuthor;
   const t = await getTranslations('Blog');
 
   if (!post) {
@@ -86,7 +92,7 @@ async function BlogPostContent({ slug }: { slug: string }) {
 }
 
 // 渲染相关文章列表
-function renderRelatedPosts(t: any, posts: any[], currentSlug: string) {
+function renderRelatedPosts(t: any, posts: BlogPostWithAuthor[], currentSlug: string) {
   return (
     <div className='mt-16'>
       <h2 className='mb-6 text-2xl font-bold'>{t('relatedPosts')}</h2>
@@ -116,11 +122,11 @@ function renderRelatedPosts(t: any, posts: any[], currentSlug: string) {
 // 相关文章组件
 async function RelatedPosts({ slug }: { slug: string }) {
   const t = await getTranslations('Blog');
-  const post = await getBlogPostBySlug(slug);
+  const post = (await getBlogPostBySlug(slug)) as BlogPostWithAuthor;
 
   // 如果找不到文章或文章没有标签，则显示热门文章
   if (!post || !post.tags || post.tags.length === 0) {
-    const popularPosts = await getPopularBlogPosts(3);
+    const popularPosts = (await getPopularBlogPosts(3)) as BlogPostWithAuthor[];
     if (!popularPosts || popularPosts.length === 0) {
       return null;
     }
@@ -129,7 +135,7 @@ async function RelatedPosts({ slug }: { slug: string }) {
   }
 
   // 使用文章标签查找相关文章
-  const relatedPosts = await getRelatedBlogPosts(slug, post.tags, 3);
+  const relatedPosts = (await getRelatedBlogPosts(slug, post.tags, 3)) as BlogPostWithAuthor[];
 
   if (!relatedPosts || relatedPosts.length === 0) {
     return null;

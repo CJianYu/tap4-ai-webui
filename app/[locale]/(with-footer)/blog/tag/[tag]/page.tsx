@@ -1,10 +1,16 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import type { BlogAuthor, BlogPost } from '@/db/supabase/types';
 import { getTranslations } from 'next-intl/server';
 
 import { RevalidateOneDay } from '@/lib/constants';
 import { getBlogPostsByTag } from '@/lib/services/blog-service';
+
+// 扩展 BlogPost 类型以包含 blog_author
+type BlogPostWithAuthor = BlogPost & {
+  blog_author?: BlogAuthor;
+};
 
 export const revalidate = RevalidateOneDay;
 
@@ -77,7 +83,7 @@ export default async function BlogTagPage({ params, searchParams }: Props) {
         ) : (
           <>
             <div className='grid grid-cols-1 gap-6'>
-              {posts.map((post: any) => (
+              {posts.map((post: BlogPostWithAuthor) => (
                 <div key={post.slug} className='rounded-lg border border-gray-700 p-6'>
                   <Link href={`/blog/${post.slug}`} className='text-xl font-medium hover:text-blue-400'>
                     {post.title}

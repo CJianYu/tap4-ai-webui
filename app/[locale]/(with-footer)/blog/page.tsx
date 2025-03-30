@@ -1,10 +1,16 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import type { BlogAuthor, BlogPost } from '@/db/supabase/types';
 import { useTranslations } from 'next-intl';
 
 import { RevalidateOneDay } from '@/lib/constants';
 import { getBlogPosts, getPopularBlogPosts } from '@/lib/services/blog-service';
+
+// 扩展 BlogPost 类型以包含 blog_author
+type BlogPostWithAuthor = BlogPost & {
+  blog_author?: BlogAuthor;
+};
 
 export const revalidate = RevalidateOneDay;
 
@@ -28,7 +34,7 @@ async function PopularPostsSection() {
     <div className='mb-12'>
       <h2 className='mb-4 text-xl font-semibold'>{t('popular')}</h2>
       <div className='grid grid-cols-1 gap-6 md:grid-cols-3'>
-        {popularPosts.map((post) => (
+        {popularPosts.map((post: BlogPostWithAuthor) => (
           <div key={post.slug} className='overflow-hidden rounded-lg border border-gray-700'>
             {post.featured_image && (
               <div className='h-40 overflow-hidden'>
@@ -74,7 +80,7 @@ async function BlogPostsList({ page }: { page: number }) {
     <div>
       <h2 className='mb-4 text-xl font-semibold'>{t('latestPosts')}</h2>
       <div className='grid grid-cols-1 gap-6'>
-        {posts.map((post) => (
+        {posts.map((post: BlogPostWithAuthor) => (
           <div key={post.slug} className='rounded-lg border border-gray-700 p-6'>
             <Link href={`/blog/${post.slug}`} className='text-xl font-medium hover:text-blue-400'>
               {post.title}
@@ -99,7 +105,7 @@ async function BlogPostsList({ page }: { page: number }) {
                 <>
                   <span className='mx-2 text-gray-500'>•</span>
                   <div className='flex flex-wrap gap-2'>
-                    {post.tags.map((tag) => (
+                    {post.tags.map((tag: string) => (
                       <Link
                         key={tag}
                         href={`/blog/tag/${tag}`}
