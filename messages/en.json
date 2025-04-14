@@ -23,52 +23,64 @@
   },
   "Faq": {
     "title": "Frequently Asked Questions",
+    "tabs": {
+      "about": "About",
+      "guide": "Guide",
+      "tools": "Tools",
+      "support": "Support",
+      "tech": "Technical"
+    },
     "1": {
       "question": "What is Open-source AI Save World Tools Directory?",
-      "answer": "AI Save World Tools Directory - tap4.ai is building an ai tools directory that helps you get your favorite ai tools. It can get ai writing tools, ai markting tools, ai paraphrasing tools, ai seo tools, ai study tools, ai generator tools, ai research tools, ai art tools, ai music tools, ai video tools, ai coding tools, ai photo tools and more here."
+      "answer": "AI Save World Tools Directory is a comprehensive platform that aggregates and categorizes the best AI tools across various domains. Our mission is to help you discover the most innovative AI solutions for your specific needs. We provide detailed information about AI writing tools, marketing tools, SEO tools, creative tools, coding assistants, study aids, research tools, and much more - all in one convenient location."
     },
     "2": {
-      "question": "How to found your ai tools in AI Save World tools directory?",
-      "answer-1": "1. Open tap4.ai.",
-      "answer-2": "2. Explore the ai tools in the AI Save World tools directory.",
-      "answer-3": "3. Click the ai tools that you need to get the detail and visit it."
+      "question": "How to find and use AI tools in this directory?",
+      "answer-1": "1. Browse our categorized collections or use the search feature to find tools by name, category, or function.",
+      "answer-2": "2. Explore tool details including features, pricing, user ratings, and use cases to find the perfect match for your needs.",
+      "answer-3": "3. Click through to the official website to start using your chosen tool right away."
     },
     "3": {
-      "question": "What are the main features of AI Save World Tools Directory?",
-      "answer-1": "1. Free AI Tools Directory: It's free to found your favorite AI Tools here.",
-      "answer-2": "2. Startup List: The free startup list for ai tools developers."
+      "question": "What makes AI Save World Tools Directory unique?",
+      "answer-1": "1. Comprehensive Coverage: We've built the most extensive AI tools directory with verified, up-to-date information.",
+      "answer-2": "2. Community-Driven: We welcome user contributions and feedback to maintain the highest quality listings.",
+      "answer-3": "3. Educational Resources: We provide guides and tutorials to help you get the most from AI tools."
     },
     "4": {
-      "question": "Is it free to submit ai tools to AI Save World Tools Directory?",
-      "answer": "Yes, it's free currently. But you should share the backlink for AI Save World Tools Directory!"
+      "question": "How can I submit my AI tool to the directory?",
+      "answer": "Submitting your AI tool is completely free! Visit our 'Submit' page and provide your tool details. We encourage you to include a backlink to AI Save World Directory on your website to help grow our community. After submission, our team will review your tool and publish it if it meets our quality standards."
     },
     "5": {
-      "question": "What's the categories list of AI Tools that AI Save World Tools Directory support?",
-      "answer": "We will support all kinds of AI Tools later. Please wait for a few days."
+      "question": "What categories of AI tools are supported?",
+      "answer": "We support a wide range of AI tool categories including but not limited to: Content Creation, Image Generation, Video Production, Audio Processing, Code Assistance, Business Intelligence, Research, Education, Customer Service, Marketing, Design, Data Analysis, and many more. We continuously expand our categories based on emerging AI technologies."
     },
     "6": {
-      "question": "What's the frequency for the up of AI tools in AI Save World Directory?",
-      "answer": "The list of AI tools will be updated daily."
+      "question": "How often is the directory updated?",
+      "answer": "Our AI tools list is updated daily through a combination of automated systems and manual curation. We ensure all information is current by regularly verifying tool details, removing discontinued tools, and adding new innovations as they emerge."
     },
     "7": {
-      "question": "Is it support GPT-4o or Sora AI here?",
-      "answer": "You can get the GPT-4o or Sora AI tool here. Here is the introduction of GPT-4o and Sora video, and you can visit the website of the tools."
+      "question": "Do you feature cutting-edge AI models like GPT-4o or Sora?",
+      "answer": "Yes! We prioritize featuring the most advanced AI models and tools. You'll find detailed information about cutting-edge technologies like OpenAI's GPT-4o and Sora, including how to access them, key features, example applications, and comparison with alternatives. We update these listings as soon as new capabilities are released."
     },
     "8": {
-      "question": "Troubleshooting",
-      "answer": "If the content aren't appearing, try a different browser, clear your cache. If issues persist, contact us at contact@6677.ai."
+      "question": "I'm having technical issues with the directory. What should I do?",
+      "answer": "If you encounter any issues while using our directory, please try: clearing your browser cache, using a different browser, or disabling extensions that might interfere with the site. If problems persist, please contact our support team at contact@6677.ai with details about the issue, including screenshots if possible."
     },
     "9": {
-      "question": "How does the content of AI Save World Directory get generated?",
-      "answer": "The content of the description of the ai tools is generated by GPT-4o from OpenAI."
+      "question": "How is the content in the directory created?",
+      "answer": "Our directory content is created through a hybrid approach. Tool descriptions and analyses are initially generated using OpenAI's GPT-4o, then reviewed and enhanced by our editorial team to ensure accuracy and quality. User reviews and ratings provide additional perspectives on each tool's effectiveness."
     },
     "10": {
-      "question": "What are the usage rights of the AI tools?",
-      "answer": "AI Save World Tools Directory is just the AI Directory for AI tools. The usage rights of the AI tools are based on the AI tools' website."
+      "question": "What are the usage terms for tools listed in the directory?",
+      "answer": "AI Save World Directory is an information resource that connects you with AI tools. Each tool has its own terms of service, pricing model, and usage rights as determined by its creators. We recommend reviewing the official terms on each tool's website before use. We clearly mark free tools, freemium options, and paid services to help you make informed decisions."
     },
     "11": {
-      "question": "Does the webui of AI Save World Directory is open source?",
-      "answer": "Yes, we will open source the webui of AI Save World Directory in the github(https://github.com/6677-ai/AI Save World-webui). Please star us."
+      "question": "Is the AI Save World Directory website open source?",
+      "answer": "Yes! We believe in transparency and community collaboration. Our web interface is open source and available on GitHub at https://github.com/6677-ai/AI-Save-World-webui. We welcome contributions from developers who want to help improve the platform. Please star our repository and consider contributing if you have ideas for enhancements."
+    },
+    "12": {
+      "question": "How can I get personalized AI tool recommendations?",
+      "answer": "We offer personalized AI tool recommendations based on your specific needs. Simply create a free account to save your preferences, industry, and use cases. Our recommendation engine will suggest the most relevant tools for your requirements, helping you discover the perfect AI solutions for your unique situation."
     }
   },
   "FooterNavigation": {
@@ -126,7 +138,15 @@
     "checkDetail": "View Detail",
     "search": "Search",
     "result": "Search Result",
-    "empty": "No data available"
+    "empty": "No data available",
+    "toolCategories": "AI Tool Categories",
+    "exploreTools": "Explore",
+    "popularAITools": "Popular AI Tools",
+    "learnMore": "Learn More",
+    "viewAllTools": "View All Tools",
+    "latestAINews": "Latest AI News",
+    "readBlog": "Read More Articles",
+    "userReviews": "User Reviews"
   },
   "Category": {
     "home": "home",
