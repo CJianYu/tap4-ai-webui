@@ -270,11 +270,11 @@ async function generateBlogContent(selectedContent) {
     {
       role: 'system',
       content:
-        '你是一位专业的AI趋势分析师和技术作家。你的文章具有深度洞察力、清晰的结构和实用的见解。请使用HTML格式输出，包含适当的<h1>, <h2>, <p>, <ul>, <li>等标签，而不是使用Markdown格式。',
+        '你是一位专业的AI趋势分析师和技术作家。你的文章具有深度洞察力、清晰的结构和实用的见解。请使用完整的HTML格式输出，包含完整的DOCTYPE、html、head和body标签，以及适当的<h1>, <h2>, <p>, <ul>, <li>等标签，而不是使用Markdown格式。',
     },
     {
       role: 'user',
-      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。请使用HTML格式输出，不要使用Markdown：\n\n${selectedContent}`,
+      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。请使用完整的HTML格式输出，包含DOCTYPE、html标签和body标签，不要使用Markdown：\n\n${selectedContent}`,
     },
   ];
 
@@ -285,19 +285,26 @@ async function generateBlogContent(selectedContent) {
   // 创建带有时间戳的slug，确保唯一性
   const slug = `ai-industry-weekly-update-${currentDate}-${timestamp}`.toLowerCase().replace(/[^\w\s\-]/g, '');
 
+  // 确保内容是完整的HTML结构
+  let finalContent = content;
+  if (!finalContent.startsWith('<!DOCTYPE') && !finalContent.startsWith('<html')) {
+    console.log('内容缺少完整HTML结构，添加DOCTYPE和html标签...');
+    finalContent = `<!DOCTYPE html>\n<html lang="zh-CN">\n<head>\n<meta charset="UTF-8">\n<title>${title}</title>\n</head>\n<body>\n${finalContent}\n</body>\n</html>`;
+  }
+
   // 提取第一段作为摘要
   let excerpt = '';
-  const firstParagraphMatch = content.match(/<p>(.*?)<\/p>/);
+  const firstParagraphMatch = finalContent.match(/<p>(.*?)<\/p>/);
   if (firstParagraphMatch && firstParagraphMatch[1]) {
     excerpt = firstParagraphMatch[1].substring(0, 200) + '...';
   } else {
-    excerpt = content.split('\n\n')[0].substring(0, 200) + '...';
+    excerpt = finalContent.replace(/<[^>]*>/g, '').substring(0, 200) + '...';
   }
 
   return {
     title,
     slug,
-    content,
+    content: finalContent,
     excerpt,
     tags: ['AI', '行业动态', '应用案例', '技术趋势'],
   };
@@ -324,11 +331,11 @@ async function translateContentSequentially(blogPost) {
       {
         role: 'system',
         content:
-          'You are a professional translator specializing in AI and technology content. Translate the following Chinese blog post into fluent, natural English while preserving all technical details and insights.',
+          'You are a professional translator specializing in AI and technology content. Translate the following Chinese blog post into fluent, natural English while preserving all technical details and insights. Keep the HTML format intact.',
       },
       {
         role: 'user',
-        content: `Translate the following content to English.\nTitle: ${blogPost.title}\nExcerpt: ${blogPost.excerpt}\nContent: ${blogPost.content}`,
+        content: `Translate the following content to English. Make sure to keep the HTML format and tags intact.\nTitle: ${blogPost.title}\nExcerpt: ${blogPost.excerpt}\nContent: ${blogPost.content}`,
       },
     ];
 
@@ -364,11 +371,55 @@ async function translateContentSequentially(blogPost) {
         .trim();
     }
 
+    // 英文内容格式检查和修复
+    if (content && !content.includes('<html') && !content.includes('<body')) {
+      // 检查是否是Markdown而不是HTML格式
+      if (content.includes('#') && !content.includes('<h1') && !content.includes('<h2')) {
+        console.log('英文内容似乎是Markdown格式，转换为HTML...');
+        // 处理标题转换
+        content = content
+          .replace(/^# (.*?)$/gm, '<h1>$1</h1>')
+          .replace(/^## (.*?)$/gm, '<h2>$1</h2>')
+          .replace(/^### (.*?)$/gm, '<h3>$1</h3>');
+
+        // 处理段落和列表
+        content = content
+          .replace(/^(?!<h[1-6]|<ul|<li|<p)(.*?)$/gm, '<p>$1</p>')
+          .replace(/^\* (.*?)$/gm, '<li>$1</li>')
+          .replace(/^- (.*?)$/gm, '<li>$1</li>');
+
+        // 如果有连续的列表项，添加ul标签
+        content = content.replace(/(<li>.*?<\/li>\n)+/g, '<ul>$&</ul>');
+
+        // 确保内容被完整包裹
+        if (!content.startsWith('<!DOCTYPE') && !content.startsWith('<html')) {
+          content = `<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="UTF-8">\n<title>${title}</title>\n</head>\n<body>\n${content}\n</body>\n</html>`;
+        }
+      }
+    }
+
     // 如果提取失败，使用原始内容
     englishTitle =
       title ||
       `AI Industry Weekly Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
-    englishExcerpt = excerpt || blogPost.excerpt;
+
+    // 确保摘要是纯文本
+    if (excerpt) {
+      // 清除HTML标签
+      englishExcerpt = excerpt.replace(/<[^>]*>/g, '');
+      if (englishExcerpt.length > 200) {
+        englishExcerpt = englishExcerpt.substring(0, 200) + '...';
+      }
+    } else {
+      // 从内容中提取第一段作为摘要
+      const firstParagraphMatch = content.match(/<p>(.*?)<\/p>/);
+      if (firstParagraphMatch && firstParagraphMatch[1]) {
+        englishExcerpt = firstParagraphMatch[1].substring(0, 200) + '...';
+      } else {
+        englishExcerpt = content.replace(/<[^>]*>/g, '').substring(0, 200) + '...';
+      }
+    }
+
     englishContent = content || blogPost.content;
 
     // 使用博客文章的slug作为英文版的slug
