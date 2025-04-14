@@ -263,6 +263,7 @@ async function analyzeAndFilterContent(articles) {
 // 使用xAI生成博客内容
 async function generateBlogContent(selectedContent) {
   const currentDate = new Date().toISOString().split('T')[0];
+  const timestamp = Date.now(); // 添加时间戳确保唯一性
 
   // 调用xAI API
   const messages = [
@@ -280,11 +281,9 @@ async function generateBlogContent(selectedContent) {
   const content = await callXaiApi(messages, 'grok-2', 0.7);
 
   const title = `AI行业动态周报：各行各业的AI应用案例(${currentDate})`;
-  const slug = title
-    .toLowerCase()
-    .replace(/[^\w\s\u4e00-\u9fa5]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/[\u4e00-\u9fa5]/g, (match) => encodeURIComponent(match));
+
+  // 创建带有时间戳的slug，确保唯一性
+  const slug = `ai-industry-weekly-update-${currentDate}-${timestamp}`.toLowerCase().replace(/[^\w\s\-]/g, '');
 
   // 提取第一段作为摘要
   let excerpt = '';
@@ -372,9 +371,8 @@ async function translateContentSequentially(blogPost) {
     englishExcerpt = excerpt || blogPost.excerpt;
     englishContent = content || blogPost.content;
 
-    // 创建英文版本的slug
-    const datePart = blogPost.slug.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '';
-    englishSlug = datePart ? `ai-industry-weekly-update-${datePart}` : 'ai-industry-weekly-update';
+    // 使用博客文章的slug作为英文版的slug
+    englishSlug = blogPost.slug;
 
     console.log('英文版本生成成功');
   } catch (error) {
@@ -383,7 +381,7 @@ async function translateContentSequentially(blogPost) {
     englishTitle = `AI Industry Weekly Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
     englishExcerpt = 'Weekly update of AI applications across various industries...';
     englishContent = blogPost.content;
-    englishSlug = `ai-industry-weekly-update-${new Date().toISOString().split('T')[0]}`;
+    englishSlug = blogPost.slug;
   }
 
   // 创建多语言内容对象，默认包含英文(en)
@@ -402,7 +400,7 @@ async function translateContentSequentially(blogPost) {
     title: blogPost.title,
     content: blogPost.content,
     excerpt: blogPost.excerpt,
-    slug: blogPost.slug,
+    slug: englishSlug + '-cn',
   };
 
   // 逐个翻译其他语言
@@ -530,22 +528,63 @@ async function saveToDatabase(translatedPosts) {
       }
     });
 
-    // 使用英文版本作为主要内容，其他语言放入i18n字段
-    const { error: dbError } = await supabase.from('blog_post').insert({
-      title: translatedPosts[defaultLanguage].title,
-      slug: translatedPosts[defaultLanguage].slug,
-      content: translatedPosts[defaultLanguage].content,
-      excerpt: translatedPosts[defaultLanguage].excerpt,
-      author_id: authorData.id,
-      published_at: new Date().toISOString(),
-      status: 2, // 已发布状态
-      tags: translatedPosts.tags,
-      i18n: i18n, // 使用i18n字段存储其他语言版本
-    });
+    // 检查该slug是否已存在
+    const { data: existingPost, error: checkError } = await supabase
+      .from('blog_post')
+      .select('id')
+      .eq('slug', translatedPosts[defaultLanguage].slug)
+      .maybeSingle();
 
-    if (dbError) throw dbError;
+    if (checkError) {
+      console.error('检查已有博客时出错:', checkError);
+      throw checkError;
+    }
+
+    let result;
+
+    if (existingPost) {
+      // 如果已存在，则更新该记录
+      console.log(`发现已有博客(ID: ${existingPost.id})，将进行更新...`);
+      const { error: updateError } = await supabase
+        .from('blog_post')
+        .update({
+          title: translatedPosts[defaultLanguage].title,
+          content: translatedPosts[defaultLanguage].content,
+          excerpt: translatedPosts[defaultLanguage].excerpt,
+          author_id: authorData.id,
+          published_at: new Date().toISOString(),
+          status: 2, // 已发布状态
+          tags: translatedPosts.tags,
+          i18n: i18n, // 使用i18n字段存储其他语言版本
+        })
+        .eq('id', existingPost.id);
+
+      if (updateError) throw updateError;
+      result = existingPost;
+    } else {
+      // 不存在则创建新记录
+      const { data: newPost, error: insertError } = await supabase
+        .from('blog_post')
+        .insert({
+          title: translatedPosts[defaultLanguage].title,
+          slug: translatedPosts[defaultLanguage].slug,
+          content: translatedPosts[defaultLanguage].content,
+          excerpt: translatedPosts[defaultLanguage].excerpt,
+          author_id: authorData.id,
+          published_at: new Date().toISOString(),
+          status: 2, // 已发布状态
+          tags: translatedPosts.tags,
+          i18n: i18n, // 使用i18n字段存储其他语言版本
+        })
+        .select()
+        .single();
+
+      if (insertError) throw insertError;
+      result = newPost;
+    }
 
     console.log('博客内容已成功保存到数据库');
+    console.log('博客ID:', result.id);
     console.log('默认语言(英文)标题:', translatedPosts[defaultLanguage].title);
     console.log('多语言版本数量:', Object.keys(i18n).length);
   } catch (error) {
