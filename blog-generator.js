@@ -508,42 +508,37 @@ async function saveToDatabase(translatedPosts) {
     const languages = Object.keys(translatedPosts).filter((key) => key !== 'tags');
     const defaultLanguage = 'en';
 
-    // 直接使用英文版本的标题和内容，而不是JSON对象
-    const title = translatedPosts[defaultLanguage].title;
-    const content = translatedPosts[defaultLanguage].content;
-    const excerpt = translatedPosts[defaultLanguage].excerpt;
-    const slug = translatedPosts[defaultLanguage].slug;
-
-    // 创建多语言内容字段 - 以国际化格式存储
+    // 准备i18n对象 - 为每种非默认语言创建条目
     const i18n = {};
 
-    // 填充除默认语言外的其他语言内容
+    // 填充每种语言的内容（除了默认语言英文）
     languages.forEach((lang) => {
       if (lang !== defaultLanguage && translatedPosts[lang]) {
-        if (!i18n[lang]) i18n[lang] = {};
-        i18n[lang].title = translatedPosts[lang].title;
-        i18n[lang].content = translatedPosts[lang].content;
-        i18n[lang].excerpt = translatedPosts[lang].excerpt;
+        i18n[lang] = {
+          title: translatedPosts[lang].title,
+          content: translatedPosts[lang].content,
+          excerpt: translatedPosts[lang].excerpt,
+        };
       }
     });
 
-    // 插入英文版本作为主要版本，其他语言版本作为i18n字段
+    // 使用英文版本作为主要内容，其他语言放入i18n字段
     const { error: dbError } = await supabase.from('blog_post').insert({
-      title: title, // 直接使用英文标题
-      slug: slug, // 使用英文slug
-      content: content, // 直接使用英文内容
-      excerpt: excerpt, // 直接使用英文摘要
+      title: translatedPosts[defaultLanguage].title,
+      slug: translatedPosts[defaultLanguage].slug,
+      content: translatedPosts[defaultLanguage].content,
+      excerpt: translatedPosts[defaultLanguage].excerpt,
       author_id: authorData.id,
       published_at: new Date().toISOString(),
       status: 2, // 已发布状态
       tags: translatedPosts.tags,
-      i18n: i18n, // 存储其他语言版本(包括中文)
+      i18n: i18n, // 使用i18n字段存储其他语言版本
     });
 
     if (dbError) throw dbError;
 
     console.log('博客内容已成功保存到数据库');
-    console.log('默认语言(英文)标题:', title);
+    console.log('默认语言(英文)标题:', translatedPosts[defaultLanguage].title);
     console.log('多语言版本数量:', Object.keys(i18n).length);
   } catch (error) {
     console.error('保存到数据库时出错:', error);

@@ -94,17 +94,17 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
   const getLocalizedContent = (field: 'title' | 'content' | 'excerpt'): string => {
     if (!post) return '';
 
-    // 如果选择的是默认语言(英文)
+    // 如果选择英文(默认语言)，直接返回主字段内容
     if (selectedLanguage === 'en') {
       return post[field] || '';
     }
 
-    // 如果选择的是其他语言，从i18n字段获取
+    // 如果选择其他语言，从i18n字段获取
     if (post.i18n && post.i18n[selectedLanguage] && post.i18n[selectedLanguage][field]) {
       return post.i18n[selectedLanguage][field] || '';
     }
 
-    // 回退到默认语言
+    // 如果当前语言没有翻译，回退到英文
     return post[field] || '';
   };
 
