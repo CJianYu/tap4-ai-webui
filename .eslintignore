@@ -7,3 +7,11 @@ messages
 components.json
 components/ui/
 api/
+
+# 忽略blog-generator.js
+blog-generator.js
+
+# 忽略其他不需要TypeScript检查的文件
+*.js
+!*.ts
+!*.tsx
