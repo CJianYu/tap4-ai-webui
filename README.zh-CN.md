@@ -1,6 +1,6 @@
-# 开源AI Save World Web UI
+# 开源 AI Save World Web UI
 
-这是一个由[AI Save World工具导航站](https://tap4.ai)开源的AI导航站项目。我们的目标是让大家很容易就拥有一个属于自己的AI导航站，
+这是一个由[AI Save World工具导航站](https://6677.ai)开源的AI导航站项目。我们的目标是让大家很容易就拥有一个属于自己的AI导航站，
 收录自己喜欢的AI工具产品。这个项目非常轻量级，维护简单，适合对AI导航站感兴趣的个人开发者，也适合对NextJs有兴趣的学习者，
 欢迎大家fork和star。
 
@@ -40,13 +40,13 @@
 
 ![AI Save World](./public/images/ai-save-world.png)
 
-## 感谢关注链接
+## 关注我们和打赏连接
 
-欢迎关注我们的Twitter: https://x.com/tap4ai
+欢迎关注我们的Twitter: https://x.com/6677ai
 
-如果觉得项目对你有帮助，欢迎请我喝杯咖啡：
+如果您觉得这个项目对您有帮助，欢迎打赏:
 
-<a href="https://www.buymeacoffee.com/tap4ai0o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+<a href="https://www.buymeacoffee.com/6677ai0o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 如果你对项目有兴趣，欢迎添加我微信: helloleo2023, 备注: "AI Save World开源"，也可以扫描二维码:
 ![AI Save World-wx](./public/images/ai-save-world-wechat.jpg)
@@ -73,14 +73,14 @@ env环境变量CRAWLER_API**中
 NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY，其他可填写随意字符串**
 
 ```sh
-# Your domain
-NEXT_PUBLIC_SITE_URL="https://tap4.ai"
+# 您的域名
+NEXT_PUBLIC_SITE_URL="https://6677.ai"
 
-# Google tracking ID and ad URL
+# 谷歌跟踪ID和广告URL
 GOOGLE_TRACKING_ID="G-XXXXXXX" GOOGLE_ADSENSE_URL="https://xxxx.googlesyndication.com/xxxxx/xxxxx"
 
-# Contact email at the bottom
-CONTACT_US_EMAIL="contact@tap4.ai"
+# 底部联系邮箱
+CONTACT_US_EMAIL="externalanswer@gmail.com"
 
 # Supabase database URL and key
 NEXT_PUBLIC_SUPABASE_URL="https://xxxyyyzzz.supabase.co" NEXT_PUBLIC_SUPABASE_ANON_KEY="XXX.YYY.ZZZ"
@@ -135,16 +135,16 @@ git clone https://github.com/6677-ai/AI Save World-webui.git
 NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY，其他可填写随意字符串**
 
 ```sh
-# Your domain
-NEXT_PUBLIC_SITE_URL="https://tap4.ai"
+# 您的域名
+NEXT_PUBLIC_SITE_URL="https://6677.ai"
 
-# Google tracking ID and ad URL
+# 谷歌跟踪ID和广告URL
 GOOGLE_TRACKING_ID="G-XXXXXXX"
 
 GOOGLE_ADSENSE_URL="https://xxxx.googlesyndication.com/xxxxx/xxxxx"
 
-# Contact email at the bottom
-CONTACT_US_EMAIL="contact@tap4.ai"
+# 底部联系邮箱
+CONTACT_US_EMAIL="externalanswer@gmail.com"
 
 # Supabase database URL and key
 NEXT_PUBLIC_SUPABASE_URL="https://xxxyyyzzz.supabase.co"
@@ -200,21 +200,21 @@ pnpm dev
 可以通过AI Save World开源的来自其他导航站的13000+个AI工具列表导入(支持sql和csv)：
 [AI Source List](https://github.com/6677-ai/AI Save World-webui/blob/main/ai_source_list)
 
-## 打算在 Tap4.ai 上提交您的网站？
+## 打算在 6677.ai 上提交您的网站？
 
-请打开：[AI Save World](https://tap4.ai/submit)
+请打开：[AI Save World](https://6677.ai/submit)
 
-### 打算将您的网站添加到我们的 `/startup` 页面？
+### 想要将您的网站添加到我们的 `/startup` 页面吗？
 
-- 在这里打开一个问题：[AI-Save-World-Directory](https://github.com/6677-ai/AI-Save-World-Directory/issues)
-- 给我们发邮件：[contact@tap4.ai](mailto:contact@tap4.ai)
+- 在这里开一个issue: [AI-Save-World-Directory](https://github.com/6677-ai/AI-Save-World-Directory/issues)
+- 给我们发邮件：[externalanswer@gmail.com](mailto:externalanswer@gmail.com)
 
 ## 我们产品的链接
 
 ### AI-Save-World-Directory
 
 全球AI工具的集合。| 收集免费的ChatGPT镜像、替代品、prompt、其他AI工具等。欲了解更多信息，请访
-问：[AI Save World](https://tap4.ai)
+问：[AI Save World](https://6677.ai)
 
 ### 如何在网站列表中获得您的首批用户
 

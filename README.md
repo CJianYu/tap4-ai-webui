@@ -1,11 +1,11 @@
 # Open Source AI Save World Web UI
 
-This is an open-source AI Tools Directory project from [AI Save World Tool Directory](https://tap4.ai). Our goal is to make it
+This is an open-source AI Tools Directory project from [AI Save World Tool Directory](https://6677.ai). Our goal is to make it
 easy for everyone to have their own AI Tools Directory, to collect their favorite AI tool products. This project is very
 lightweight and easy to maintain, suitable for individual developers interested in AI navigation sites, and also
 suitable for learners interested in NextJs. Everyone is welcome to fork and star.
 
-[Simplified Chinese](https://github.com/6677-ai/AI Save World-webui/blob/main/README.zh-CN.md) | English
+[Simplified Chinese](https://github.com/6677-ai/AI-Save-World-webui/blob/main/README.zh-CN.md) | English
 
 ## Support AI Save World in Product Hunt
 
@@ -18,7 +18,7 @@ suitable for learners interested in NextJs. Everyone is welcome to fork and star
 - Supports simple categorization and search.
 
 Note: If you are not familiar with the database, or are concerned about compatibility issues with version 1.0.0, please
-click to switch to the [version 1.0.0 branch](https://github.com/6677-ai/AI Save World-webui/tree/v1.0.0).
+click to switch to the [version 1.0.0 branch](https://github.com/6677-ai/AI-Save-World-webui/tree/v1.0.0).
 
 ## Latest Features Introduction
 
@@ -43,11 +43,11 @@ click to switch to the [version 1.0.0 branch](https://github.com/6677-ai/AI Save
 
 ## Follow and Support Links
 
-Please follow our Twitter: https://x.com/tap4ai
+Please follow our Twitter: https://x.com/6677ai
 
 If you find the project helpful, please consider buying me a coffee:
 
-<a href="https://www.buymeacoffee.com/tap4ai0o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+<a href="https://www.buymeacoffee.com/6677ai0o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
 If you are interested in the project, please add my WeChat: helloleo2023, note: "AI Save World open source"
 
@@ -55,7 +55,7 @@ If you are interested in the project, please add my WeChat: helloleo2023, note: 
 
 ### Deploying AI Save World Crawler
 
-See [AI Save World Crawler](https://github.com/6677-ai/AI Save World-crawler) for details. After deployment, you can use the
+See [AI Save World Crawler](https://github.com/6677-ai/AI-Save-World-crawler) for details. After deployment, you can use the
 platform's domain name or a custom domain name as the API interface for generating AI tool web page content (e.g.,
 https://{crawler_domain}/site/crawl, where {crawler_domain} is your specific domain name).
 
@@ -72,27 +72,27 @@ https://{crawler_domain}/site/crawl, where {crawler_domain} is your specific dom
 
 ### Deploy on Vercel **(Don't forget to set the environment variables)**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F6677-ai%2FAI Save World-webui.git&env=NEXT_PUBLIC_SITE_URL,GOOGLE_TRACKING_ID,GOOGLE_ADSENSE_URL,CONTACT_US_EMAIL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,CRAWLER_API,CRAWLER_API_KEY,CRON_AUTH_KEY,SUBMIT_AUTH_KEY&project-name=AI Save World)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F6677-ai%2FAI-Save-World-webui.git&env=NEXT_PUBLIC_SITE_URL,GOOGLE_TRACKING_ID,GOOGLE_ADSENSE_URL,CONTACT_US_EMAIL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,CRAWLER_API,CRAWLER_API_KEY,CRON_AUTH_KEY,SUBMIT_AUTH_KEY&project-name=AI Save World)
 
 Environment params as below: **Note: All key is in need, and the value including
 NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY write with the correct value**
 
 ```sh
 # Your domain
-NEXT_PUBLIC_SITE_URL="https://tap4.ai"
+NEXT_PUBLIC_SITE_URL="https://6677.ai"
 
 # Google tracking ID and ad URL
 GOOGLE_TRACKING_ID="G-XXXXXXX" GOOGLE_ADSENSE_URL="https://xxxx.googlesyndication.com/xxxxx/xxxxx"
 
 # Contact email at the bottom
-CONTACT_US_EMAIL="contact@tap4.ai"
+CONTACT_US_EMAIL="externalanswer@gmail.com"
 
 # Supabase database URL and key
 NEXT_PUBLIC_SUPABASE_URL="https://xxxyyyzzz.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="XXX.YYY.ZZZ"
 
 # Web crawler API interface
-CRAWLER_API="https://{crawler_domain}/site/crawl_async"
+CRAWLER_API="https://craw_domain/site/crawl_async"
 
 # Crawler interface verification key
 CRAWLER_API_KEY="xxxx"
@@ -126,7 +126,7 @@ results.**
 #### Clone this project
 
 ```sh
-git clone https://github.com/6677-ai/AI Save World-webui.git
+git clone https://github.com/6677-ai/AI-Save-World-webui.git
 ```
 
 #### Create a Supabase Database and Execute SQL Scripts
@@ -144,13 +144,13 @@ NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY writ
 
 ```sh
 # Your domain
-NEXT_PUBLIC_SITE_URL="https://tap4.ai"
+NEXT_PUBLIC_SITE_URL="https://6677.ai"
 
 # Google tracking ID and ad URL
 GOOGLE_TRACKING_ID="G-XXXXXXX" GOOGLE_ADSENSE_URL="https://xxxx.googlesyndication.com/xxxxx/xxxxx"
 
 # Contact email at the bottom
-CONTACT_US_EMAIL="contact@tap4.ai"
+CONTACT_US_EMAIL="externalanswer@gmail.com"
 
 # Supabase database URL and key
 NEXT_PUBLIC_SUPABASE_URL="https://xxxyyyzzz.supabase.co" NEXT_PUBLIC_SUPABASE_ANON_KEY="XXX.YYY.ZZZ"
@@ -204,16 +204,16 @@ website content and insert it into the web_navigation table.
 ### How to get the ai tools for project initialization?
 
 You can get the 13000+ AIs from AI Save World collected from other AI Tools Directory in
-[AI Source List](https://github.com/6677-ai/AI Save World-webui/blob/main/ai_source_list)
+[AI Source List](https://github.com/6677-ai/AI-Save-World-webui/blob/main/ai_source_list)
 
-## Wanna submit your website on Tap4.ai?
+## Wanna submit your website on 6677.ai?
 
-Open: [AI Save World](https://tap4.ai)
+Open: [AI Save World](https://6677.ai)
 
 ### Wanna add you website to our `/startup` page?
 
 - open an issue here: [AI-Save-World-Directory](https://github.com/6677-ai/AI-Save-World-Directory/issues)
-- email us: contact@tap4.ai
+- email us: externalanswer@gmail.com
 
 ## Links to our products
 
@@ -246,7 +246,7 @@ https://www.zhihu.com/pin/1832771259513069568
 
 ### Website content AI crawler
 
-visit: [6677-ai/AI Save World-crawler](https://github.com/6677-ai/AI Save World-crawler)
+visit: [6677-ai/AI-Save-World-crawler](https://github.com/6677-ai/AI-Save-World-crawler)
 
 
 #### More AI

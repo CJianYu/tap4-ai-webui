@@ -1,4 +1,7 @@
-Sitemap: https://www.tap4.ai/sitemap.xml
+Sitemap: https://www.6677.ai/sitemap.xml
 
 User-agent: *
 Allow: /
+
+User-agent: GPTBot
+Disallow: /
