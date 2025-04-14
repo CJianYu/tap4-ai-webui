@@ -21,13 +21,44 @@ export async function generateMetadata({ params: { locale } }: { params: { local
     namespace: 'Metadata.home',
   });
 
+  const title = t('title');
+  const description = t('description');
+  const keywords = t('keywords');
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string;
+
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL as string),
-    title: t('title'),
-    description: t('description'),
-    keywords: t('keywords'),
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    keywords,
     alternates: {
       canonical: './',
+      languages: {
+        en: '/en',
+        'zh-CN': '/zh-CN',
+      },
+    },
+    openGraph: {
+      type: 'website',
+      url: siteUrl,
+      title,
+      description,
+      siteName: 'TAP4.ai',
+      images: [
+        {
+          url: `${siteUrl}/images/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [`${siteUrl}/images/og-image.png`],
     },
   };
 }

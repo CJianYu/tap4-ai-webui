@@ -22,6 +22,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getBlogPostBySlug(params.slug, params.locale);
   const t = await getTranslations('Blog');
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string;
 
   if (!post) {
     return {
@@ -30,9 +31,58 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const title = `${post.title} - ${t('title')} - AI Save World`;
+  const description = post.excerpt || post.content.substring(0, 160).replace(/<[^>]*>/g, '');
+  const publishedTime = post.published_at || post.created_at;
+  const authorName = post.blog_author?.name || 'TAP4.ai';
+  const ogImage = post.featured_image || `${siteUrl}/images/blog-default.png`;
+  const url = `${siteUrl}/${params.locale}/blog/${post.slug}`;
+
+  const keywords = post.tags ? post.tags.join(', ') : 'AI, technology, blog';
+
   return {
-    title: `${post.title} - ${t('title')} - AI Save World`,
-    description: post.excerpt || post.content.substring(0, 160),
+    title,
+    description,
+    keywords,
+    authors: [{ name: authorName }],
+    alternates: {
+      canonical: url,
+      languages: {
+        en: `/en/blog/${post.slug}`,
+        'zh-CN': `/zh-CN/blog/${post.slug}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      type: 'article',
+      publishedTime: new Date(publishedTime).toISOString(),
+      authors: [authorName],
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      siteName: 'TAP4.ai',
+      locale: params.locale,
+      tags: post.tags || [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
+    other: {
+      'article:published_time': new Date(publishedTime).toISOString(),
+      'article:author': authorName,
+      'article:section': 'Technology',
+      'article:tag': post.tags ? post.tags.join(',') : 'AI',
+    },
   };
 }
 
@@ -40,13 +90,45 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function BlogPostContent({ slug, locale }: { slug: string; locale: string }) {
   const post = await getBlogPostBySlug(slug, locale);
   const t = await getTranslations('Blog');
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL as string;
 
   if (!post) {
     notFound();
   }
 
+  // 创建文章的JSON-LD结构化数据
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt || post.content.substring(0, 160).replace(/<[^>]*>/g, ''),
+    image: post.featured_image ? [post.featured_image] : undefined,
+    datePublished: new Date(post.published_at || post.created_at).toISOString(),
+    dateModified: new Date(post.updated_at || post.created_at).toISOString(),
+    author: {
+      '@type': 'Person',
+      name: post.blog_author?.name || 'TAP4.ai',
+      url: post.blog_author?.website || siteUrl,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'TAP4.ai',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/images/logo.png`,
+      },
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/${locale}/blog/${slug}`,
+    },
+    keywords: post.tags ? post.tags.join(',') : 'AI',
+    wordCount: post.content.split(/\s+/).length,
+  };
+
   return (
     <article className='prose prose-lg prose-invert max-w-none'>
+      <script type='application/ld+json' dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <h1 className='mb-4 text-3xl font-bold'>{post.title}</h1>
 
       <div className='mb-8 flex items-center'>
