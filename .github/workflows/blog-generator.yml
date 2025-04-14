@@ -32,18 +32,65 @@ jobs:
           echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
           echo "XAI_API_KEY=${{ secrets.XAI_API_KEY }}" >> .env
       
-      - name: Run blog generator
-        run: node blog-generator.js
-      
-      - name: Save logs
-        if: always()
+      - name: Modify blog-generator.js to add logging
         run: |
-          mkdir -p logs
-          cp *.log logs/ || echo "No log files found"
+          cat << 'EOF' > log-setup.js
+          const fs = require('fs');
+          const logFile = `blog-generator-${new Date().toISOString().replace(/:/g, '-')}.log`;
+          
+          // 写入日志到文件
+          fs.writeFileSync(logFile, '=== 博客生成开始 ===\n');
+          
+          // 保存原始的console方法
+          const originalLog = console.log;
+          const originalError = console.error;
+          
+          // 重写console方法以同时输出到文件
+          console.log = function() {
+            const message = Array.from(arguments).join(' ');
+            fs.appendFileSync(logFile, `${message}\n`);
+            originalLog.apply(console, arguments);
+          };
+          
+          console.error = function() {
+            const message = Array.from(arguments).join(' ');
+            fs.appendFileSync(logFile, `错误: ${message}\n`);
+            originalError.apply(console, arguments);
+          };
+          
+          // 监听未捕获的异常
+          process.on('uncaughtException', (err) => {
+            console.error('未捕获的异常:', err);
+          });
+          
+          process.on('unhandledRejection', (reason, promise) => {
+            console.error('未处理的Promise拒绝:', reason);
+          });
+          
+          // 导出空对象，仅用于require时执行上述代码
+          module.exports = {};
+          EOF
+          
+          # 插入到脚本开头
+          sed -i '1s/^/require(".\/log-setup.js");\n/' blog-generator.js
       
-      - name: Upload run logs
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: blog-generator-logs
-          path: logs 
+      - name: Run blog generator
+        run: node blog-generator.js || echo "Script exited with error code $?"
+      
+      - name: Print logs (on failure)
+        if: failure()
+        run: find . -name "blog-generator-*.log" -exec cat {} \; || echo "No log files found"
+        
+      - name: Print summary
+        run: |
+          echo "Blog Generator 运行完成"
+          echo "检查以下信息:"
+          echo "- 日志文件列表:"
+          find . -name "blog-generator-*.log" -exec ls -la {} \; || echo "没有找到日志文件"
+          echo "- 最新日志内容 (最后20行):"
+          LOG_FILE=$(find . -name "blog-generator-*.log" | sort | tail -n 1)
+          if [ -n "$LOG_FILE" ]; then
+            tail -n 20 "$LOG_FILE"
+          else
+            echo "没有找到日志文件"
+          fi 
