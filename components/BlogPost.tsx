@@ -155,7 +155,7 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
 
   // 获取按钮的CSS类名，避免嵌套三元表达式
   const getButtonClassName = (code: string) => {
-    const base = 'px-2 py-1 text-sm font-medium border border-gray-300 focus:outline-none';
+    const base = 'px-2 py-1 text-sm font-medium border border-gray-300 focus:outline-none whitespace-nowrap';
     const selected =
       code === selectedLanguage ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 hover:bg-gray-50';
 
@@ -174,9 +174,9 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
 
   return (
     <div className='container mx-auto max-w-4xl px-4 py-8'>
-      {/* 语言选择器 */}
-      <div className='mb-6 flex justify-end'>
-        <div className='inline-flex rounded-md shadow-sm'>
+      {/* 语言选择器 - 修复样式问题 */}
+      <div className='mb-6 flex w-full justify-end overflow-visible'>
+        <div className='z-10 inline-flex overflow-visible rounded-md shadow-sm'>
           {Object.entries(SUPPORTED_LANGUAGES).map(([code, { name, flag }]) => (
             <button
               key={code}
@@ -192,9 +192,9 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
       </div>
 
       {/* 博客标题和元数据 */}
-      <div className='mb-10'>
+      <div className='mb-10 w-full'>
         <h1 className='mb-6 text-4xl font-bold'>{getLocalizedContent('title')}</h1>
-        <div className='flex flex-wrap items-center text-gray-600'>
+        <div className='flex w-full flex-wrap items-center text-gray-600'>
           <span className='mb-2 mr-4'>{postDate}</span>
           {post.author && (
             <span className='mb-2 mr-4'>
@@ -214,7 +214,7 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
       </div>
 
       {/* 博客内容 - 使用直接HTML渲染 */}
-      <article className='prose prose-lg max-w-none'>
+      <article className='prose prose-lg w-full max-w-none'>
         <div dangerouslySetInnerHTML={{ __html: getLocalizedContent('content') }} />
       </article>
     </div>

@@ -270,11 +270,11 @@ async function generateBlogContent(selectedContent) {
     {
       role: 'system',
       content:
-        '你是一位专业的AI趋势分析师和技术作家。你的文章具有深度洞察力、清晰的结构和实用的见解。请使用完整的HTML格式输出，包含完整的DOCTYPE、html、head和body标签，以及适当的<h1>, <h2>, <p>, <ul>, <li>等标签，而不是使用Markdown格式。',
+        '你是一位专业的AI趋势分析师和技术作家。你的文章具有深度洞察力、清晰的结构和实用的见解。请使用基础HTML格式输出，包含适当的<h1>, <h2>, <p>, <ul>, <li>等标签，不要使用Markdown。你可以添加一些基本的样式来增强可读性，但请不要修改body和html等会影响整体页面布局的样式。请不要添加过多的CSS，只添加提高可读性的基本样式，如文本颜色、边距和字体大小等。',
     },
     {
       role: 'user',
-      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。请使用完整的HTML格式输出，包含DOCTYPE、html标签和body标签，不要使用Markdown：\n\n${selectedContent}`,
+      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。可以添加一些基本样式来提高可读性，但不要修改body、html等影响整体布局的样式：\n\n${selectedContent}`,
     },
   ];
 
@@ -331,11 +331,11 @@ async function translateContentSequentially(blogPost) {
       {
         role: 'system',
         content:
-          'You are a professional translator specializing in AI and technology content. Translate the following Chinese blog post into fluent, natural English while preserving all technical details and insights. Keep the HTML format intact.',
+          'You are a professional translator specializing in AI and technology content. Translate the following Chinese blog post into fluent, natural English while preserving all technical details and insights. Keep the HTML format intact. You can add basic styling for readability such as colors, margins, and font sizes, but do not modify styles that would affect the overall page layout like body or html tags. Only include minimal CSS for readability enhancement.',
       },
       {
         role: 'user',
-        content: `Translate the following content to English. Make sure to keep the HTML format and tags intact.\nTitle: ${blogPost.title}\nExcerpt: ${blogPost.excerpt}\nContent: ${blogPost.content}`,
+        content: `Translate the following content to English. Make sure to keep the HTML format and tags intact. You may add basic styling for readability, but don't modify body, html or any styles that would affect the overall page layout.\nTitle: ${blogPost.title}\nExcerpt: ${blogPost.excerpt}\nContent: ${blogPost.content}`,
       },
     ];
 
@@ -463,9 +463,9 @@ async function translateContentSequentially(blogPost) {
     try {
       await withRetry(async () => {
         const systemMessages = {
-          tw: '你是一位專業翻譯，專門處理AI和科技內容。請將以下中文博客文章翻譯成流暢、自然的繁體中文，同時保留所有技術細節和見解。',
-          jp: 'あなたはAIとテクノロジーのコンテンツを専門とするプロの翻訳者です。次の中国語のブログ投稿を、すべての技術的な詳細と洞察を保持しながら、流暢で自然な日本語に翻訳してください。',
-          es: 'Eres un traductor profesional especializado en contenidos de IA y tecnología. Traduce la siguiente publicación de blog en chino a un español fluido y natural, conservando todos los detalles técnicos y perspectivas.',
+          tw: '你是一位專業翻譯，專門處理AI和科技內容。請將以下中文博客文章翻譯成流暢、自然的繁體中文，同時保留所有技術細節和見解。請严格按照格式翻译标题、摘要和正文。你可以添加基本的樣式以增強可讀性，如文字顏色、邊距和字體大小等，但不要修改會影響整體頁面佈局的樣式，如body或html標籤。只添加提高可讀性的最小化CSS。',
+          jp: 'あなたはAIとテクノロジーのコンテンツを専門とするプロの翻訳者です。次の中国語のブログ投稿を、すべての技術的な詳細と洞察を保持しながら、流暢で自然な日本語に翻訳してください。タイトル、概要、本文をフォーマットに厳密に従って翻訳してください。読みやすさを向上させるために、文字色、マージン、フォントサイズなどの基本的なスタイルを追加できますが、body、htmlなど全体的なページレイアウトに影響するスタイルは変更しないでください。読みやすさを向上させるための最小限のCSSのみを含めてください。',
+          es: 'Eres un traductor profesional especializado en contenidos de IA y tecnología. Traduce la siguiente publicación de blog en chino a un español fluido y natural, conservando todos los detalles técnicos y perspectivas. Por favor, traduce estrictamente el título, el resumen y el contenido según el formato indicado. Puedes añadir estilos básicos para mejorar la legibilidad, como colores de texto, márgenes y tamaños de fuente, pero no modifiques estilos que afectarían al diseño general de la página, como las etiquetas body o html. Incluye solo CSS mínimo para mejorar la legibilidad.',
         };
 
         // 为每种语言发送单独的翻译请求，使用中文原文进行翻译
@@ -476,7 +476,17 @@ async function translateContentSequentially(blogPost) {
           },
           {
             role: 'user',
-            content: `Translate the following content to ${lang.name}.\nTitle: ${blogPost.title}\nExcerpt: ${blogPost.excerpt}\nContent: ${blogPost.content}`,
+            content: `Translate the following content to ${lang.name}. Be sure to provide explicit translations for Title, Excerpt, and Content. Format your response exactly like this:
+Title: [translated title]
+Excerpt: [translated excerpt]
+Content: [translated content with HTML preserved and basic styling for readability]
+
+You may include basic CSS for improved readability (colors, font-sizes, margins) but do not modify body, html or any styles that would affect the overall page layout.
+
+Here's the content to translate:
+Title: ${blogPost.title}
+Excerpt: ${blogPost.excerpt}
+Content: ${blogPost.content}`,
           },
         ];
 
@@ -513,7 +523,30 @@ async function translateContentSequentially(blogPost) {
         }
 
         // 如果提取失败，使用整个翻译结果
-        if (!title) title = blogPost.title;
+        if (!title) {
+          console.log(`${lang.code} 标题提取失败，尝试重新翻译标题...`);
+          // 单独翻译标题
+          const titleOnlyMessages = [
+            {
+              role: 'system',
+              content: systemMessages[lang.code],
+            },
+            {
+              role: 'user',
+              content: `只翻译以下标题到 ${lang.name}: "${blogPost.title}"`,
+            },
+          ];
+          try {
+            const titleResult = await callXaiApi(titleOnlyMessages, 'grok-2', 0.3);
+            // 提取翻译后的标题（去除可能的引号）
+            title = titleResult.replace(/^["']|["']$/g, '').trim();
+            if (!title) title = blogPost.title;
+          } catch (e) {
+            console.error(`独立翻译标题失败:`, e);
+            title = blogPost.title;
+          }
+        }
+
         if (!excerpt || excerpt.startsWith('<!DOCTYPE') || excerpt.startsWith('<html')) {
           // 从内容中提取摘要
           if (content && content.match(/<p>(.*?)<\/p>/)) {
@@ -530,6 +563,10 @@ async function translateContentSequentially(blogPost) {
         }
         if (!content) content = translatedResult;
 
+        console.log(`${lang.code} 翻译结果:
+标题: ${title}
+摘要 (前40字符): ${excerpt.substring(0, 40)}...`);
+
         // 将翻译后的内容添加到多语言对象
         multilingual[lang.code] = {
           title: title,
@@ -543,13 +580,30 @@ async function translateContentSequentially(blogPost) {
       }, 2);
     } catch (error) {
       console.error(`翻译到 ${lang.name} 失败:`, error);
-      // 出错时使用默认内容
-      multilingual[lang.code] = {
-        title: blogPost.title,
-        content: blogPost.content,
-        excerpt: blogPost.excerpt,
-        slug: `${englishSlug}-${lang.code}`,
-      };
+      // 出错时使用默认内容，但尝试使用备用翻译方法获取标题
+      try {
+        // 简单翻译标题映射（备用方法）
+        const backupTitles = {
+          tw: `AI產業動態週報：各行各業的AI應用案例(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
+          jp: `AI業界動向週報：各業界のAI応用事例(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
+          es: `Informe semanal de la industria de la IA: Casos de aplicación de la IA en diversas industrias(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
+        };
+
+        multilingual[lang.code] = {
+          title: backupTitles[lang.code] || blogPost.title,
+          content: blogPost.content,
+          excerpt: blogPost.excerpt,
+          slug: `${englishSlug}-${lang.code}`,
+        };
+        console.log(`使用备用标题翻译: ${backupTitles[lang.code]}`);
+      } catch (e) {
+        multilingual[lang.code] = {
+          title: blogPost.title,
+          content: blogPost.content,
+          excerpt: blogPost.excerpt,
+          slug: `${englishSlug}-${lang.code}`,
+        };
+      }
     }
   }
 
