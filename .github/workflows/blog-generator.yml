@@ -13,10 +13,10 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
       
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           node-version: '20'
           cache: 'npm'
@@ -35,10 +35,15 @@ jobs:
       - name: Run blog generator
         run: node blog-generator.js
       
+      - name: Save logs
+        if: always()
+        run: |
+          mkdir -p logs
+          cp *.log logs/ || echo "No log files found"
+      
       - name: Upload run logs
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: blog-generator-logs
-          path: blog-generator-*.log
-          retention-days: 7 
+          path: logs 
