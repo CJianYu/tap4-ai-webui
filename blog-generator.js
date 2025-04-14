@@ -268,11 +268,12 @@ async function generateBlogContent(selectedContent) {
   const messages = [
     {
       role: 'system',
-      content: '你是一位专业的AI趋势分析师和技术作家。你的文章具有深度洞察力、清晰的结构和实用的见解。',
+      content:
+        '你是一位专业的AI趋势分析师和技术作家。你的文章具有深度洞察力、清晰的结构和实用的见解。请使用HTML格式输出，包含适当的<h1>, <h2>, <p>, <ul>, <li>等标签，而不是使用Markdown格式。',
     },
     {
       role: 'user',
-      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源：\n\n${selectedContent}`,
+      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。请使用HTML格式输出，不要使用Markdown：\n\n${selectedContent}`,
     },
   ];
 
@@ -285,7 +286,14 @@ async function generateBlogContent(selectedContent) {
     .replace(/\s+/g, '-')
     .replace(/[\u4e00-\u9fa5]/g, (match) => encodeURIComponent(match));
 
-  const excerpt = content.split('\n\n')[0].substring(0, 200) + '...';
+  // 提取第一段作为摘要
+  let excerpt = '';
+  const firstParagraphMatch = content.match(/<p>(.*?)<\/p>/);
+  if (firstParagraphMatch && firstParagraphMatch[1]) {
+    excerpt = firstParagraphMatch[1].substring(0, 200) + '...';
+  } else {
+    excerpt = content.split('\n\n')[0].substring(0, 200) + '...';
+  }
 
   return {
     title,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useLocale, useTranslations } from 'next-intl';
-import Markdown from 'react-markdown';
 
 // 支持的语言列表
 const SUPPORTED_LANGUAGES = {
@@ -139,6 +138,9 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
     return className;
   };
 
+  // 获取要显示的博客内容
+  const blogContent = getLocalizedContent('content');
+
   return (
     <div className='container mx-auto max-w-4xl px-4 py-8'>
       {/* 语言选择器 */}
@@ -180,10 +182,10 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
         </div>
       </div>
 
-      {/* 博客内容 */}
-      <div className='prose prose-lg max-w-none'>
-        <Markdown>{getLocalizedContent('content')}</Markdown>
-      </div>
+      {/* 博客内容 - 使用直接HTML渲染 */}
+      <article className='prose prose-lg max-w-none'>
+        <div dangerouslySetInnerHTML={{ __html: blogContent }} />
+      </article>
     </div>
   );
 }
