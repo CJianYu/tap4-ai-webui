@@ -3,11 +3,12 @@
     "loading": "加載中..."
   },
   "Navigation": {
-    "title": "Tap4 AI工具目錄",
+    "title": "開源AI拯救世界工具導航",
     "discover": "發現AI",
     "submit": "提交",
     "newtools": "新工具",
-    "startup": "創業公司",
+    "startup": "創業",
+    "blog": "部落格",
     "menu": "菜單"
   },
   "Footer": {
