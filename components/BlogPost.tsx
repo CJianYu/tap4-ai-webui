@@ -99,8 +99,8 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
     }
 
     // 如果选择其他语言，从i18n字段获取
-    if (post.i18n && post.i18n[selectedLanguage] && post.i18n[selectedLanguage][field]) {
-      return post.i18n[selectedLanguage][field] || '';
+    if (post.i18n && post.i18n[selectedLanguage]) {
+      return post.i18n[selectedLanguage][field] || post[field] || '';
     }
 
     // 如果当前语言没有翻译，回退到英文
@@ -119,27 +119,22 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
 
   // 获取按钮的CSS类名，避免嵌套三元表达式
   const getButtonClassName = (code: string) => {
-    let className = 'px-4 py-2 text-sm font-medium border border-gray-300';
+    const base = 'px-2 py-1 text-sm font-medium border border-gray-300 focus:outline-none';
+    const selected =
+      code === selectedLanguage ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-gray-700 hover:bg-gray-50';
 
-    // 根据选择状态添加颜色样式
-    if (selectedLanguage === code) {
-      className += ' bg-blue-600 text-white';
+    // 位置相关样式
+    let position = '';
+    if (code === Object.keys(SUPPORTED_LANGUAGES)[0]) {
+      position = 'rounded-l-md';
+    } else if (code === Object.keys(SUPPORTED_LANGUAGES)[Object.keys(SUPPORTED_LANGUAGES).length - 1]) {
+      position = 'rounded-r-md';
     } else {
-      className += ' bg-white text-gray-700 hover:bg-gray-50';
+      position = 'border-l-0 border-r-0';
     }
 
-    // 添加圆角样式
-    if (code === 'en') {
-      className += ' rounded-l-md';
-    } else if (code === 'es') {
-      className += ' rounded-r-md';
-    }
-
-    return className;
+    return `${base} ${selected} ${position}`;
   };
-
-  // 获取要显示的博客内容
-  const blogContent = getLocalizedContent('content');
 
   return (
     <div className='container mx-auto max-w-4xl px-4 py-8'>
@@ -153,8 +148,8 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
               onClick={() => handleLanguageChange(code)}
               className={getButtonClassName(code)}
             >
-              <span className='mr-2'>{flag}</span>
-              <span>{name}</span>
+              <span className='mr-1'>{flag}</span>
+              <span className='hidden sm:inline'>{name}</span>
             </button>
           ))}
         </div>
@@ -163,10 +158,10 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
       {/* 博客标题和元数据 */}
       <div className='mb-10'>
         <h1 className='mb-6 text-4xl font-bold'>{getLocalizedContent('title')}</h1>
-        <div className='flex items-center text-gray-600'>
-          <span className='mr-4'>{postDate}</span>
+        <div className='flex flex-wrap items-center text-gray-600'>
+          <span className='mb-2 mr-4'>{postDate}</span>
           {post.author && (
-            <span className='mr-4'>
+            <span className='mb-2 mr-4'>
               {t('by')} {post.author.name}
             </span>
           )}
@@ -184,7 +179,7 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
 
       {/* 博客内容 - 使用直接HTML渲染 */}
       <article className='prose prose-lg max-w-none'>
-        <div dangerouslySetInnerHTML={{ __html: blogContent }} />
+        <div dangerouslySetInnerHTML={{ __html: getLocalizedContent('content') }} />
       </article>
     </div>
   );
