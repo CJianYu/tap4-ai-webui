@@ -93,6 +93,11 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
   const getLocalizedContent = (field: 'title' | 'content' | 'excerpt'): string => {
     if (!post) return '';
 
+    // 调试输出
+    console.log('当前选择的语言:', selectedLanguage);
+    console.log('可用的语言:', post.i18n ? Object.keys(post.i18n) : '没有i18n字段');
+    console.log('i18n内容:', post.i18n);
+
     // 如果选择英文(默认语言)，直接返回主字段内容
     if (selectedLanguage === 'en') {
       return post[field] || '';
@@ -100,10 +105,13 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
 
     // 如果选择其他语言，从i18n字段获取
     if (post.i18n && post.i18n[selectedLanguage]) {
-      return post.i18n[selectedLanguage][field] || post[field] || '';
+      const translatedContent = post.i18n[selectedLanguage][field];
+      console.log(`${selectedLanguage}语言的${field}字段:`, translatedContent ? '有内容' : '无内容');
+      return translatedContent || post[field] || '';
     }
 
     // 如果当前语言没有翻译，回退到英文
+    console.log(`没有找到${selectedLanguage}语言的翻译，回退到英文`);
     return post[field] || '';
   };
 
