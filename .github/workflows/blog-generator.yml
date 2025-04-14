@@ -1,37 +1,44 @@
-name: Generate Blog Posts
+name: Auto Generate Blog
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # 每天早上8点运行
-  workflow_dispatch:  # 允许手动触发
+    # 每天早上8点自动运行 (UTC时间，对应北京时间16点)
+    - cron: '0 8 * * *'
+  # 允许手动触发工作流
+  workflow_dispatch:
 
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-        
-    - name: Install dependencies
-      run: npm install dotenv axios cheerio @supabase/supabase-js rss-parser openai
+      - name: Checkout repository
+        uses: actions/checkout@v3
       
-    - name: Create .env file
-      run: |
-        echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > .env
-        echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> .env
-        echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}" >> .env
-        
-    - name: Run blog generator
-      run: node blog-generator.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
       
-    - name: Upload logs
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: blog-generator-logs
-        path: blog-generator.log 
+      - name: Install dependencies
+        run: |
+          npm install
+          npm install dotenv axios cheerio @supabase/supabase-js rss-parser
+      
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_SUPABASE_URL=${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}" >> .env
+          echo "XAI_API_KEY=${{ secrets.XAI_API_KEY }}" >> .env
+      
+      - name: Run blog generator
+        run: node blog-generator.js
+      
+      - name: Upload run logs
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: blog-generator-logs
+          path: blog-generator-*.log
+          retention-days: 7 
