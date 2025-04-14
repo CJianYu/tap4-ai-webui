@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useLocale, useTranslations } from 'next-intl';
 
-// 支持的语言列表
+// 支持的语言列表 - 确保与i18n.ts中定义的保持一致
 const SUPPORTED_LANGUAGES = {
   en: { name: 'English', flag: '🇺🇸' },
   cn: { name: '简体中文', flag: '🇨🇳' },
@@ -33,6 +33,7 @@ interface BlogPostData {
       title?: string;
       content?: string;
       excerpt?: string;
+      slug?: string;
     }
   >;
   author?: {
@@ -73,6 +74,9 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
           throw supabaseError;
         }
         setPost(data);
+
+        // 根据当前locale设置初始语言
+        setSelectedLanguage(locale);
       } catch (err: any) {
         console.error('Error fetching blog post:', err);
         setError(err.message || 'Failed to load blog post');
@@ -82,7 +86,7 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
     };
 
     fetchPost();
-  }, [slug, initialData]);
+  }, [slug, initialData, locale]);
 
   // 处理语言切换
   const handleLanguageChange = (lang: string) => {
@@ -94,24 +98,33 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
     if (!post) return '';
 
     // 调试输出
+    console.log('=========== 调试信息 ===========');
     console.log('当前选择的语言:', selectedLanguage);
+    console.log('当前页面语言:', locale);
     console.log('可用的语言:', post.i18n ? Object.keys(post.i18n) : '没有i18n字段');
-    console.log('i18n内容:', post.i18n);
 
     // 如果选择英文(默认语言)，直接返回主字段内容
     if (selectedLanguage === 'en') {
+      console.log(`使用英文(默认)${field}内容`);
       return post[field] || '';
     }
 
     // 如果选择其他语言，从i18n字段获取
-    if (post.i18n && post.i18n[selectedLanguage]) {
-      const translatedContent = post.i18n[selectedLanguage][field];
-      console.log(`${selectedLanguage}语言的${field}字段:`, translatedContent ? '有内容' : '无内容');
-      return translatedContent || post[field] || '';
+    if (post.i18n && typeof post.i18n === 'object') {
+      // 检查i18n字段中是否存在选定的语言
+      if (post.i18n[selectedLanguage]) {
+        const translatedContent = post.i18n[selectedLanguage][field];
+        console.log(`${selectedLanguage}语言的${field}字段:`, translatedContent ? '有内容' : '无内容');
+
+        // 如果有翻译内容，使用翻译内容，否则回退到默认内容
+        if (translatedContent) {
+          return translatedContent;
+        }
+      }
     }
 
-    // 如果当前语言没有翻译，回退到英文
-    console.log(`没有找到${selectedLanguage}语言的翻译，回退到英文`);
+    // 如果没有找到翻译，回退到默认内容
+    console.log(`没有找到${selectedLanguage}语言的翻译，回退到默认内容`);
     return post[field] || '';
   };
 
