@@ -28,6 +28,9 @@ interface BlogPostData {
   author_id: number;
   tags: string[];
   i18n?: any; // 使用any类型以适应不同的数据库结构
+  title_translations?: Record<string, string>;
+  content_translations?: Record<string, string>;
+  excerpt_translations?: Record<string, string>;
   author?: {
     name: string;
     bio: string;
@@ -102,19 +105,16 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
       return post[field] || '';
     }
 
-    // 如果选择其他语言，从i18n字段获取
+    // 方法1: 检查i18n字段 (新脚本生成的博客使用该结构)
     if (post.i18n) {
       console.log('i18n字段类型:', typeof post.i18n);
       console.log('i18n字段包含的语言:', Object.keys(post.i18n || {}));
 
       // 检查i18n字段中是否存在选定的语言
-      const languageData = post.i18n[selectedLanguage];
-      if (languageData) {
-        console.log(`找到${selectedLanguage}语言数据:`, languageData);
-        console.log(`${selectedLanguage}语言的${field}字段:`, languageData[field] ? '有内容' : '无内容');
-
-        // 如果有翻译内容，使用翻译内容
-        if (languageData[field]) {
+      if (post.i18n[selectedLanguage]) {
+        const languageData = post.i18n[selectedLanguage];
+        if (languageData && languageData[field]) {
+          console.log(`从i18n字段找到${selectedLanguage}语言的${field}内容`);
           return languageData[field];
         }
       } else {
@@ -122,6 +122,20 @@ function BlogPost({ slug, initialData }: BlogPostProps): React.ReactElement {
       }
     } else {
       console.log('博客数据中没有i18n字段');
+    }
+
+    // 方法2: 检查content_translations字段 (旧脚本生成的博客可能使用该结构)
+    if (post[`${field}_translations`]) {
+      console.log(`${field}_translations字段类型:`, typeof post[`${field}_translations`]);
+
+      const translations = post[`${field}_translations`];
+      if (translations && typeof translations === 'object' && translations[selectedLanguage]) {
+        console.log(`从${field}_translations找到${selectedLanguage}语言内容`);
+        return translations[selectedLanguage];
+      }
+      console.log(`${field}_translations中没有${selectedLanguage}语言数据`);
+    } else {
+      console.log(`博客数据中没有${field}_translations字段`);
     }
 
     // 如果没有找到翻译，回退到默认内容

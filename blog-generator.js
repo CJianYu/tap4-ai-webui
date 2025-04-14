@@ -463,7 +463,20 @@ async function translateContentSequentially(blogPost) {
 
         // 如果提取失败，使用整个翻译结果
         if (!title) title = blogPost.title;
-        if (!excerpt) excerpt = translatedResult.split('\n')[0].substring(0, 200);
+        if (!excerpt || excerpt.startsWith('<!DOCTYPE') || excerpt.startsWith('<html')) {
+          // 从内容中提取摘要
+          if (content && content.match(/<p>(.*?)<\/p>/)) {
+            const firstParagraphMatch = content.match(/<p>(.*?)<\/p>/);
+            if (firstParagraphMatch && firstParagraphMatch[1]) {
+              excerpt = firstParagraphMatch[1].substring(0, 200) + '...';
+            } else {
+              excerpt = content.replace(/<[^>]*>/g, '').substring(0, 200) + '...';
+            }
+          } else {
+            excerpt = translatedResult.split('\n')[0].substring(0, 200) + '...';
+          }
+          console.log(`修复了${lang.code}语言的摘要内容`);
+        }
         if (!content) content = translatedResult;
 
         // 将翻译后的内容添加到多语言对象
@@ -517,14 +530,45 @@ async function saveToDatabase(translatedPosts) {
     // 准备i18n对象 - 为每种非默认语言创建条目
     const i18n = {};
 
-    // 填充每种语言的内容（除了默认语言英文）
+    // 同时准备content_translations等字段（兼容旧结构）
+    const title_translations = {};
+    const content_translations = {};
+    const excerpt_translations = {};
+
+    // 对每种语言进行规范化处理
     languages.forEach((lang) => {
       if (lang !== defaultLanguage && translatedPosts[lang]) {
+        // 确保摘要正确提取，可能需要从内容中提取
+        let excerpt = translatedPosts[lang].excerpt || '';
+
+        // 检查并修复excerpt内容，确保它不包含HTML标签开头
+        if (excerpt.startsWith('<!DOCTYPE') || excerpt.startsWith('<html')) {
+          // 从内容中提取第一段作为摘要
+          const contentText = translatedPosts[lang].content || '';
+          const firstParagraphMatch = contentText.match(/<p>(.*?)<\/p>/);
+          if (firstParagraphMatch && firstParagraphMatch[1]) {
+            excerpt = firstParagraphMatch[1].substring(0, 200) + '...';
+          } else {
+            excerpt = contentText.replace(/<[^>]*>/g, '').substring(0, 200) + '...';
+          }
+
+          // 更新translatedPosts中的摘要
+          translatedPosts[lang].excerpt = excerpt;
+
+          console.log(`修复了${lang}语言的摘要内容`);
+        }
+
+        // 新结构：i18n字段
         i18n[lang] = {
           title: translatedPosts[lang].title,
           content: translatedPosts[lang].content,
-          excerpt: translatedPosts[lang].excerpt,
+          excerpt: excerpt,
         };
+
+        // 旧结构：单独的 _translations 字段 - 确保完全相同的内容
+        title_translations[lang] = translatedPosts[lang].title;
+        content_translations[lang] = translatedPosts[lang].content;
+        excerpt_translations[lang] = excerpt;
       }
     });
 
@@ -556,6 +600,9 @@ async function saveToDatabase(translatedPosts) {
           status: 2, // 已发布状态
           tags: translatedPosts.tags,
           i18n: i18n, // 使用i18n字段存储其他语言版本
+          title_translations: title_translations, // 兼容旧结构
+          content_translations: content_translations, // 兼容旧结构
+          excerpt_translations: excerpt_translations, // 兼容旧结构
         })
         .eq('id', existingPost.id);
 
@@ -575,6 +622,9 @@ async function saveToDatabase(translatedPosts) {
           status: 2, // 已发布状态
           tags: translatedPosts.tags,
           i18n: i18n, // 使用i18n字段存储其他语言版本
+          title_translations: title_translations, // 兼容旧结构
+          content_translations: content_translations, // 兼容旧结构
+          excerpt_translations: excerpt_translations, // 兼容旧结构
         })
         .select()
         .single();
@@ -587,6 +637,7 @@ async function saveToDatabase(translatedPosts) {
     console.log('博客ID:', result.id);
     console.log('默认语言(英文)标题:', translatedPosts[defaultLanguage].title);
     console.log('多语言版本数量:', Object.keys(i18n).length);
+    console.log('使用了双重兼容结构，同时支持i18n和_translations字段');
   } catch (error) {
     console.error('保存到数据库时出错:', error);
     throw error;
