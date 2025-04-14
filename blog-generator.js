@@ -300,38 +300,118 @@ async function generateBlogContent(selectedContent) {
 async function translateContentSequentially(blogPost) {
   // 定义所有支持的语言
   const targetLanguages = [
-    { code: 'en', name: 'English' },
+    { code: 'cn', name: '简体中文' },
     { code: 'tw', name: '繁體中文' },
     // 减少语言数量以提高成功率
     { code: 'jp', name: '日本語' },
     { code: 'es', name: 'Español' },
   ];
 
-  // 创建多语言内容对象，默认包含中文(cn)
+  // 先生成英文版本作为主要版本
+  console.log(`生成英文版本作为默认语言...`);
+  let englishTitle, englishContent, englishExcerpt, englishSlug;
+
+  try {
+    // 为英文版本发送翻译请求
+    const messages = [
+      {
+        role: 'system',
+        content:
+          'You are a professional translator specializing in AI and technology content. Translate the following Chinese blog post into fluent, natural English while preserving all technical details and insights.',
+      },
+      {
+        role: 'user',
+        content: `Translate the following content to English.\nTitle: ${blogPost.title}\nExcerpt: ${blogPost.excerpt}\nContent: ${blogPost.content}`,
+      },
+    ];
+
+    const translatedResult = await callXaiApi(messages, 'grok-2', 0.3);
+
+    // 提取翻译后的标题、摘要和内容
+    let title = '',
+      excerpt = '',
+      content = '';
+
+    // 尝试提取标题
+    const titleMatch = translatedResult.match(/Title:(.*?)(?=Excerpt:|Content:|$)/s);
+    if (titleMatch && titleMatch[1]) {
+      title = titleMatch[1].trim();
+    }
+
+    // 尝试提取摘要
+    const excerptMatch = translatedResult.match(/Excerpt:(.*?)(?=Content:|$)/s);
+    if (excerptMatch && excerptMatch[1]) {
+      excerpt = excerptMatch[1].trim();
+    }
+
+    // 尝试提取内容
+    const contentMatch = translatedResult.match(/Content:(.*?)$/s);
+    if (contentMatch && contentMatch[1]) {
+      content = contentMatch[1].trim();
+    } else {
+      // 如果没有明确的Content标记，使用剩余的所有文本
+      content = translatedResult
+        .replace(/Title:.*?(?=Excerpt:|$)/s, '')
+        .replace(/Excerpt:.*?(?=Content:|$)/s, '')
+        .replace(/Content:/s, '')
+        .trim();
+    }
+
+    // 如果提取失败，使用原始内容
+    englishTitle =
+      title ||
+      `AI Industry Weekly Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
+    englishExcerpt = excerpt || blogPost.excerpt;
+    englishContent = content || blogPost.content;
+
+    // 创建英文版本的slug
+    const datePart = blogPost.slug.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '';
+    englishSlug = datePart ? `ai-industry-weekly-update-${datePart}` : 'ai-industry-weekly-update';
+
+    console.log('英文版本生成成功');
+  } catch (error) {
+    console.error('生成英文版本失败:', error);
+    // 出错时使用简单的英文转换
+    englishTitle = `AI Industry Weekly Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
+    englishExcerpt = 'Weekly update of AI applications across various industries...';
+    englishContent = blogPost.content;
+    englishSlug = `ai-industry-weekly-update-${new Date().toISOString().split('T')[0]}`;
+  }
+
+  // 创建多语言内容对象，默认包含英文(en)
   const multilingual = {
-    cn: {
-      title: blogPost.title,
-      content: blogPost.content,
-      excerpt: blogPost.excerpt,
-      slug: blogPost.slug,
+    en: {
+      title: englishTitle,
+      content: englishContent,
+      excerpt: englishExcerpt,
+      slug: englishSlug,
     },
     tags: blogPost.tags,
   };
 
-  // 逐个翻译每种语言
+  // 添加中文版本
+  multilingual.cn = {
+    title: blogPost.title,
+    content: blogPost.content,
+    excerpt: blogPost.excerpt,
+    slug: blogPost.slug,
+  };
+
+  // 逐个翻译其他语言
   for (const lang of targetLanguages) {
+    if (lang.code === 'cn') continue; // 中文已经添加，跳过
+
     console.log(`翻译内容为 ${lang.name} (${lang.code})...`);
 
     try {
       await withRetry(async () => {
         const systemMessages = {
-          en: 'You are a professional translator specializing in AI and technology content. Translate the following Chinese blog post into fluent, natural English while preserving all technical details and insights.',
           tw: '你是一位專業翻譯，專門處理AI和科技內容。請將以下中文博客文章翻譯成流暢、自然的繁體中文，同時保留所有技術細節和見解。',
           jp: 'あなたはAIとテクノロジーのコンテンツを専門とするプロの翻訳者です。次の中国語のブログ投稿を、すべての技術的な詳細と洞察を保持しながら、流暢で自然な日本語に翻訳してください。',
           es: 'Eres un traductor profesional especializado en contenidos de IA y tecnología. Traduce la siguiente publicación de blog en chino a un español fluido y natural, conservando todos los detalles técnicos y perspectivas.',
         };
 
-        // 为每种语言发送单独的翻译请求
+        // 为每种语言发送单独的翻译请求，使用中文原文进行翻译
         const messages = [
           {
             role: 'system',
@@ -385,7 +465,7 @@ async function translateContentSequentially(blogPost) {
           title: title,
           content: content,
           excerpt: excerpt,
-          slug: `${blogPost.slug}-${lang.code}`,
+          slug: `${englishSlug}-${lang.code}`,
         };
 
         // 等待一段时间，避免API请求过快
@@ -398,7 +478,7 @@ async function translateContentSequentially(blogPost) {
         title: blogPost.title,
         content: blogPost.content,
         excerpt: blogPost.excerpt,
-        slug: `${blogPost.slug}-${lang.code}`,
+        slug: `${englishSlug}-${lang.code}`,
       };
     }
   }
@@ -424,36 +504,47 @@ async function saveToDatabase(translatedPosts) {
       authorData = newAuthor[0];
     }
 
-    // 准备多语言字段
+    // 准备多语言字段 - 使用英文版本作为默认值
     const languages = Object.keys(translatedPosts).filter((key) => key !== 'tags');
+    const defaultLanguage = 'en';
 
-    // 构建title的多语言JSON对象
-    const title = {};
-    const content = {};
-    const excerpt = {};
+    // 直接使用英文版本的标题和内容，而不是JSON对象
+    const title = translatedPosts[defaultLanguage].title;
+    const content = translatedPosts[defaultLanguage].content;
+    const excerpt = translatedPosts[defaultLanguage].excerpt;
+    const slug = translatedPosts[defaultLanguage].slug;
 
-    // 填充每种语言的内容
+    // 创建多语言内容字段 - 以国际化格式存储
+    const i18n = {};
+
+    // 填充除默认语言外的其他语言内容
     languages.forEach((lang) => {
-      if (translatedPosts[lang]) {
-        title[lang] = translatedPosts[lang].title;
-        content[lang] = translatedPosts[lang].content;
-        excerpt[lang] = translatedPosts[lang].excerpt;
+      if (lang !== defaultLanguage && translatedPosts[lang]) {
+        if (!i18n[lang]) i18n[lang] = {};
+        i18n[lang].title = translatedPosts[lang].title;
+        i18n[lang].content = translatedPosts[lang].content;
+        i18n[lang].excerpt = translatedPosts[lang].excerpt;
       }
     });
 
-    // 插入中文版本作为主要版本
+    // 插入英文版本作为主要版本，其他语言版本作为i18n字段
     const { error: dbError } = await supabase.from('blog_post').insert({
-      title: JSON.stringify(title),
-      slug: translatedPosts.cn.slug,
-      content: JSON.stringify(content),
-      excerpt: JSON.stringify(excerpt),
+      title: title, // 直接使用英文标题
+      slug: slug, // 使用英文slug
+      content: content, // 直接使用英文内容
+      excerpt: excerpt, // 直接使用英文摘要
       author_id: authorData.id,
       published_at: new Date().toISOString(),
       status: 2, // 已发布状态
       tags: translatedPosts.tags,
+      i18n: i18n, // 存储其他语言版本(包括中文)
     });
 
     if (dbError) throw dbError;
+
+    console.log('博客内容已成功保存到数据库');
+    console.log('默认语言(英文)标题:', title);
+    console.log('多语言版本数量:', Object.keys(i18n).length);
   } catch (error) {
     console.error('保存到数据库时出错:', error);
     throw error;
