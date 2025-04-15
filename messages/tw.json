@@ -21,6 +21,19 @@
     "termsConditions": "條款和條件",
     "contactUs": "聯繫我們"
   },
+  "Blog": {
+    "title": "部落格",
+    "popular": "熱門文章",
+    "latestPosts": "最新文章",
+    "readMore": "閱讀更多",
+    "views": "{{count}}次瀏覽",
+    "prev": "上一頁",
+    "next": "下一頁",
+    "backToBlog": "返回部落格",
+    "relatedPosts": "相關文章",
+    "tagTitle": "標籤為'{{tag}}'的文章",
+    "noPostsWithTag": "沒有找到標籤為'{{tag}}'的文章"
+  },
   "Faq": {
     "title": "常見問題",
     "tabs": {
@@ -201,6 +214,10 @@
     },
     "submit": {
       "title": "提交您的AI工具並獲取流量 | AI Save World目錄"
+    },
+    "blog": {
+      "title": "部落格 | AI Save World目錄",
+      "description": "來自AI Save World目錄的最新更新、新聞和關於AI工具及行業趨勢的見解"
     }
   }
 }

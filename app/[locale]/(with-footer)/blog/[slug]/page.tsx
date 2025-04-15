@@ -229,13 +229,13 @@ async function RelatedPosts({ slug, locale }: { slug: string; locale: string }) 
 // 加载状态组件
 function LoadingState() {
   return (
-    <div className='mx-auto max-w-pc px-4 py-8'>
+    <div className='mx-auto w-full max-w-pc px-4 py-8'>
       <div className='mb-6'>
         <div className='h-6 w-24 rounded bg-gray-700' />
       </div>
       <div className='animate-pulse'>
-        <div className='mb-6 h-10 w-3/4 rounded bg-gray-700' />
-        <div className='mb-8 flex items-center'>
+        <div className='mx-auto mb-6 h-10 w-3/4 rounded bg-gray-700' />
+        <div className='mb-8 flex items-center justify-center'>
           <div className='mr-3 h-10 w-10 rounded-full bg-gray-700' />
           <div>
             <div className='mb-2 h-5 w-32 rounded bg-gray-700' />
@@ -243,7 +243,7 @@ function LoadingState() {
           </div>
         </div>
         <div className='mb-8 h-80 rounded bg-gray-700' />
-        <div className='mb-6 flex gap-2'>
+        <div className='mb-6 flex justify-center gap-2'>
           <div className='h-6 w-16 rounded bg-gray-700' />
           <div className='h-6 w-16 rounded bg-gray-700' />
         </div>
@@ -252,7 +252,7 @@ function LoadingState() {
           <div className='h-5 w-full rounded bg-gray-700' />
           <div className='h-5 w-full rounded bg-gray-700' />
           <div className='h-5 w-full rounded bg-gray-700' />
-          <div className='h-5 w-3/4 rounded bg-gray-700' />
+          <div className='mx-auto h-5 w-3/4 rounded bg-gray-700' />
         </div>
       </div>
     </div>
@@ -262,10 +262,10 @@ function LoadingState() {
 // 主页面组件
 export default async function BlogPostPage({ params }: Props) {
   const t = await getTranslations('Blog');
-  const locale = params.locale || 'cn';
+  const locale = params.locale || 'en';
 
   return (
-    <div className='mx-auto max-w-pc px-4 py-8'>
+    <div className='mx-auto w-full max-w-pc px-4 py-8'>
       <div className='mb-6'>
         <Link href='/blog' className='text-blue-400 hover:text-blue-300'>
           ← {t('backToBlog')}

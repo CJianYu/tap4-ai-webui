@@ -11,6 +11,19 @@
     "blog": "ブログ",
     "menu": "メニュー"
   },
+  "Blog": {
+    "title": "ブログ",
+    "popular": "人気の投稿",
+    "latestPosts": "最新の投稿",
+    "readMore": "続きを読む",
+    "views": "{{count}}回の閲覧",
+    "prev": "前へ",
+    "next": "次へ",
+    "backToBlog": "ブログに戻る",
+    "relatedPosts": "関連記事",
+    "tagTitle": "タグ '{{tag}}' の記事",
+    "noPostsWithTag": "タグ '{{tag}}' の記事は見つかりませんでした"
+  },
   "Footer": {
     "title": "Tap4 AI ツールディレクトリ",
     "subTitle": "Tap4 AI ツールディレクトリで2024年のベストAIツールを発見しましょう！",
@@ -173,6 +186,10 @@
     },
     "submit": {
       "title": "AIツールを提出してトラフィックを取得する | Tap4 AIツールディレクトリ"
+    },
+    "blog": {
+      "title": "ブログ | Tap4 AIツールディレクトリ",
+      "description": "Tap4 AIツールディレクトリからのAIツールと業界トレンドに関する最新情報、ニュース、洞察"
     }
   }
 }

@@ -1,1 +1,32 @@
-{"Common":{"loading":"加载中..."},"Faq":{"tabs":{"about":"关于","guide":"使用指南","tools":"工具","support":"支持","tech":"技术"}}}
+{
+  "Common": {"loading": "加载中..."},
+  "Navigation": {
+    "title": "AI Save World工具目录",
+    "discover": "发现AI",
+    "submit": "提交",
+    "newtools": "新工具",
+    "startup": "创业",
+    "blog": "博客",
+    "menu": "菜单"
+  },
+  "Faq": {"tabs": {"about": "关于", "guide": "使用指南", "tools": "工具", "support": "支持", "tech": "技术"}},
+  "Blog": {
+    "title": "博客",
+    "popular": "热门文章",
+    "latestPosts": "最新文章",
+    "readMore": "阅读更多",
+    "views": "{{count}}次浏览",
+    "prev": "上一页",
+    "next": "下一页",
+    "backToBlog": "返回博客",
+    "relatedPosts": "相关文章",
+    "tagTitle": "标签为'{{tag}}'的文章",
+    "noPostsWithTag": "没有找到标签为'{{tag}}'的文章"
+  },
+  "Metadata": {
+    "blog": {
+      "title": "博客 | AI Save World工具目录",
+      "description": "来自AI Save World工具目录的最新更新、新闻和关于AI工具及行业趋势的见解"
+    }
+  }
+}

@@ -13,7 +13,7 @@ const handleServiceError = (
 };
 
 // 获取当前语言的内容
-const getLocalizedField = (item: any, field: string, locale: string = 'cn') => {
+const getLocalizedField = (item: any, field: string, locale: string = 'en') => {
   // 如果有多语言字段并且包含当前语言的内容，则返回对应语言的内容
   if (item[`${field}_translations`] && item[`${field}_translations`][locale]) {
     return item[`${field}_translations`][locale];
@@ -23,7 +23,7 @@ const getLocalizedField = (item: any, field: string, locale: string = 'cn') => {
 };
 
 // 处理博客文章的多语言内容
-const processPostWithLocale = (post: any, locale: string = 'cn') => {
+const processPostWithLocale = (post: any, locale: string = 'en') => {
   if (!post) return post;
 
   return {
@@ -42,13 +42,13 @@ const processPostWithLocale = (post: any, locale: string = 'cn') => {
 };
 
 // 处理博客文章列表的多语言内容
-const processPostsWithLocale = (posts: any[], locale: string = 'cn') => {
+const processPostsWithLocale = (posts: any[], locale: string = 'en') => {
   if (!posts) return [];
   return posts.map((post) => processPostWithLocale(post, locale));
 };
 
 // 获取所有已发布的博客文章（分页）
-export async function getBlogPosts(page = 1, limit = 10, locale: string = 'cn') {
+export async function getBlogPosts(page = 1, limit = 10, locale: string = 'en') {
   try {
     const supabase = await createServerComponentClient();
     const offset = (page - 1) * limit;
@@ -78,7 +78,7 @@ export async function getBlogPosts(page = 1, limit = 10, locale: string = 'cn') 
 }
 
 // 获取单篇博客文章
-export async function getBlogPostBySlug(slug: string, locale: string = 'cn') {
+export async function getBlogPostBySlug(slug: string, locale: string = 'en') {
   try {
     const supabase = await createServerComponentClient();
 
@@ -111,7 +111,7 @@ export async function getBlogPostBySlug(slug: string, locale: string = 'cn') {
 }
 
 // 获取热门博客文章
-export async function getPopularBlogPosts(limit = 5, locale: string = 'cn') {
+export async function getPopularBlogPosts(limit = 5, locale: string = 'en') {
   try {
     const supabase = await createServerComponentClient();
 
@@ -134,7 +134,7 @@ export async function getPopularBlogPosts(limit = 5, locale: string = 'cn') {
 }
 
 // 获取相关博客文章（基于标签）
-export async function getRelatedBlogPosts(currentPostSlug: string, tags: string[], limit = 3, locale: string = 'cn') {
+export async function getRelatedBlogPosts(currentPostSlug: string, tags: string[], limit = 3, locale: string = 'en') {
   try {
     if (!tags || tags.length === 0) {
       return await getPopularBlogPosts(limit, locale);
@@ -238,7 +238,7 @@ export const submitComment = async (comment: Omit<BlogComment, 'id' | 'created_a
 };
 
 // 按标签获取文章
-export async function getBlogPostsByTag(tag: string, page = 1, limit = 10, locale: string = 'cn') {
+export async function getBlogPostsByTag(tag: string, page = 1, limit = 10, locale: string = 'en') {
   try {
     const supabase = await createServerComponentClient();
     const offset = (page - 1) * limit;

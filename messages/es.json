@@ -160,8 +160,21 @@
     }
   },
   "Explore": {
-    "title": "Descubre las Mejores Herramientas de IA 2025",
+    "title": "Descubre Las Mejores Herramientas de IA 2025",
     "subTitle": "Obtén tus herramientas de IA favoritas en el Directorio de Herramientas de IA de Tap4. La lista de herramientas de IA se actualiza diariamente por GPT-4o."
+  },
+  "Blog": {
+    "title": "Blog",
+    "popular": "Publicaciones Populares",
+    "latestPosts": "Últimas Publicaciones",
+    "readMore": "Leer Más",
+    "views": "{{count}} vistas",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "backToBlog": "Volver al Blog",
+    "relatedPosts": "Publicaciones Relacionadas",
+    "tagTitle": "Publicaciones etiquetadas con {{tag}}",
+    "noPostsWithTag": "No se encontraron publicaciones con la etiqueta '{{tag}}'"
   },
   "Metadata": {
     "home": {
@@ -181,6 +194,10 @@
     },
     "submit": {
       "title": "Envía tu herramienta de IA y obtén tráfico | Directorio de IA de Tap4"
+    },
+    "blog": {
+      "title": "Blog | Directorio de IA de Tap4",
+      "description": "Últimas actualizaciones, noticias y perspectivas sobre herramientas de IA y tendencias de la industria del Directorio de IA de Tap4"
     }
   }
 }

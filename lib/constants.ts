@@ -8,10 +8,6 @@ export const NAV_LINKS = [
     href: '/submit',
   },
   {
-    code: 'startup',
-    href: '/startup',
-  },
-  {
     code: 'blog',
     href: '/blog',
   },

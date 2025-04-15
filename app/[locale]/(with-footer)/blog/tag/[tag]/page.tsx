@@ -58,7 +58,7 @@ export default async function BlogTagPage({ params, searchParams }: Props) {
   const t = await getTranslations('Blog');
   const tag = decodeURIComponent(params.tag);
   const page = parseInt(searchParams.page || '1', 10);
-  const locale = params.locale || 'cn';
+  const locale = params.locale || 'en';
 
   // 获取文章数据
   const { posts, count } = await getBlogPostsByTag(tag, page, 10, locale);
@@ -67,14 +67,14 @@ export default async function BlogTagPage({ params, searchParams }: Props) {
   const totalPages = Math.ceil(count / 10);
 
   return (
-    <div className='mx-auto max-w-pc px-4 py-8'>
+    <div className='mx-auto w-full max-w-pc px-4 py-8'>
       <div className='mb-6'>
         <Link href='/blog' className='text-blue-400 hover:text-blue-300'>
           ← {t('backToBlog')}
         </Link>
       </div>
 
-      <h1 className='mb-8 text-3xl font-bold'>{t('tagTitle', { tag })}</h1>
+      <h1 className='mb-8 text-center text-3xl font-bold'>{t('tagTitle', { tag })}</h1>
 
       <Suspense fallback={<LoadingState />}>
         {!posts || posts.length === 0 ? (

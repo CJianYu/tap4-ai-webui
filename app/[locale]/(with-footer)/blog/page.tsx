@@ -33,9 +33,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // 热门文章组件
-async function PopularPostsSection() {
+async function PopularPostsSection({ locale }: { locale: string }) {
   const t = useTranslations('Blog');
-  const popularPosts = await getPopularBlogPosts();
+  const popularPosts = await getPopularBlogPosts(5, locale);
 
   if (!popularPosts || popularPosts.length === 0) {
     return null;
@@ -184,10 +184,10 @@ async function BlogPostsList({ page, locale }: { page: number; locale: string })
 // 加载状态组件
 function LoadingState() {
   return (
-    <div className='mx-auto max-w-pc px-4 py-8'>
+    <div className='mx-auto w-full max-w-pc px-4 py-8'>
       <div className='animate-pulse'>
-        <div className='mb-8 h-8 w-1/4 rounded bg-gray-700' />
-        <div className='mb-4 h-6 w-1/5 rounded bg-gray-700' />
+        <div className='mx-auto mb-8 h-8 w-1/4 rounded bg-gray-700' />
+        <div className='mx-auto mb-4 h-6 w-1/5 rounded bg-gray-700' />
         <div className='mb-12 grid grid-cols-1 gap-6 md:grid-cols-3'>
           {[1, 2, 3].map((i) => (
             <div key={i} className='rounded-lg border border-gray-700 p-4'>
@@ -201,7 +201,7 @@ function LoadingState() {
             </div>
           ))}
         </div>
-        <div className='mb-4 h-6 w-1/5 rounded bg-gray-700' />
+        <div className='mx-auto mb-4 h-6 w-1/5 rounded bg-gray-700' />
         {[1, 2, 3].map((i) => (
           <div key={i} className='mb-6 rounded-lg border border-gray-700 p-6'>
             <div className='mb-4 h-6 w-3/4 rounded bg-gray-700' />
@@ -223,15 +223,15 @@ function LoadingState() {
 export default function BlogHomePage({ params, searchParams }: Props) {
   const t = useTranslations('Blog');
   const page = parseInt(searchParams.page || '1', 10);
-  const locale = params.locale || 'cn';
+  const locale = params.locale || 'en';
 
   return (
-    <div className='mx-auto max-w-pc px-4 py-8'>
-      <h1 className='mb-8 text-3xl font-bold'>{t('title')}</h1>
+    <div className='mx-auto w-full max-w-pc px-4 py-8'>
+      <h1 className='mb-8 text-center text-3xl font-bold'>{t('title')}</h1>
 
       <Suspense fallback={<LoadingState />}>
         {/* 热门文章区域 */}
-        <PopularPostsSection />
+        <PopularPostsSection locale={locale} />
 
         {/* 文章列表 */}
         <BlogPostsList page={page} locale={locale} />

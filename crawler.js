@@ -227,7 +227,7 @@ async function main() {
   };
 
   // 设置最大处理数量，避免一次处理太多
-  const MAX_PROCESS = 50;
+  const MAX_PROCESS = 100;
   const processCount = Math.min(aiSourceList.length, MAX_PROCESS);
 
   // 逐个处理AI工具，只处理列表前面的几个
