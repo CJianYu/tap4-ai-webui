@@ -5,6 +5,15 @@ const { createClient } = require('@supabase/supabase-js');
 const Parser = require('rss-parser');
 const https = require('https');
 
+// 检查必要的环境变量
+const requiredEnvVars = ['XAI_API_KEY', 'NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'];
+for (const envVar of requiredEnvVars) {
+  if (!process.env[envVar]) {
+    console.error(`错误: 环境变量 ${envVar} 未设置。请在 .env 文件中设置所有必要的环境变量。`);
+    process.exit(1);
+  }
+}
+
 // 设置默认超时时间和重试次数
 const DEFAULT_TIMEOUT = 60000; // 60秒
 const DEFAULT_RETRY = 3;
@@ -29,7 +38,7 @@ const xaiClient = axios.create({
   baseURL: 'https://api.x.ai',
   timeout: DEFAULT_TIMEOUT,
   headers: {
-    Authorization: `Bearer ${process.env.XAI_API_KEY || 'xai-bRzRbECs4q39ybG58tIDzyJWQhaYMJ7eTnleH45iMdUBWtVEqJzYfEYuj3KEcDPCAW04Utro2n6GY3Xi'}`,
+    Authorization: `Bearer ${process.env.XAI_API_KEY}`,
     'Content-Type': 'application/json',
   },
 });
@@ -56,6 +65,10 @@ const sources = [
 // xAI API调用函数
 async function callXaiApi(messages, model = 'grok-2', temperature = 0.7) {
   try {
+    if (!process.env.XAI_API_KEY) {
+      throw new Error('XAI_API_KEY 环境变量未设置。请在 .env 文件中设置 XAI_API_KEY。');
+    }
+
     console.log(`调用xAI API，使用模型: ${model}...`);
 
     const response = await xaiClient.post('/v1/chat/completions', {

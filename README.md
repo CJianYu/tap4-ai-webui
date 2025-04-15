@@ -72,7 +72,7 @@ https://{crawler_domain}/site/crawl, where {crawler_domain} is your specific dom
 
 ### Deploy on Vercel **(Don't forget to set the environment variables)**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F6677-ai%2FAI-Save-World-webui.git&env=NEXT_PUBLIC_SITE_URL,GOOGLE_TRACKING_ID,GOOGLE_ADSENSE_URL,CONTACT_US_EMAIL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,CRAWLER_API,CRAWLER_API_KEY,CRON_AUTH_KEY,SUBMIT_AUTH_KEY&project-name=AI Save World)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2F6677-ai%2FAI-Save-World-webui.git&env=NEXT_PUBLIC_SITE_URL,GOOGLE_TRACKING_ID,GOOGLE_ADSENSE_URL,CONTACT_US_EMAIL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY,CRAWLER_API,CRAWLER_API_KEY,CRON_AUTH_KEY,SUBMIT_AUTH_KEY,XAI_API_KEY&project-name=AI Save World)
 
 Environment params as below: **Note: All key is in need, and the value including
 NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY write with the correct value**
@@ -102,6 +102,9 @@ CRON_AUTH_KEY="keyxxxx"
 
 # Submit API verification key
 SUBMIT_AUTH_KEY="xxxx"
+
+# xAI API key for blog-generator
+XAI_API_KEY="your_xai_api_key"
 
 ```
 
@@ -166,6 +169,9 @@ CRON_AUTH_KEY="keyxxxx"
 
 # Submit API verification key
 SUBMIT_AUTH_KEY="xxxx"
+
+# xAI API key for blog-generator
+XAI_API_KEY="your_xai_api_key"
 
 ```
 
