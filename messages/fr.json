@@ -66,8 +66,8 @@
       "answer": "Le Répertoire des outils AI de Tap4 est simplement un répertoire d'outils AI. Les autorisations d'utilisation des outils AI sont basées sur le site web de l'outil AI."
     },
     "11": {
-      "question": "L'interface Web du Répertoire des outils AI de Tap4 est-elle open source ?",
-      "answer": "Oui, nous ouvrirons l'interface Web du Répertoire des outils AI de Tap4 sur GitHub (https://github.com/6677-ai/tap4-ai-webui). Veuillez nous donner un étoile."
+      "question": "L'interface Web du Répertoire des outils AI de Tap4 est-elle modifiable ?",
+      "answer": "Nous croyons en la transparence et la collaboration communautaire. Notre plateforme est conçue pour être flexible et continuellement améliorée. Si vous avez des suggestions ou des idées d'améliorations, n'hésitez pas à nous contacter. Nous cherchons toujours des moyens de rendre notre répertoire plus utile et plus convivial."
     }
   },
   "FooterNavigation": {

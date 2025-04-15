@@ -31,7 +31,7 @@ export default function Navigation() {
           <div>
             <Link className='hover:opacity-80' href='/' title={t('title')}>
               <BaseImage
-                src='/images/ai-save-world.svg'
+                src='/images/VYL77IXNSA.png'
                 alt={t('title')}
                 title={t('title')}
                 width={64}

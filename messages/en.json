@@ -3,7 +3,7 @@
     "loading": "loading..."
   },
   "Navigation": {
-    "title": "Open-source AI Save World Tools Directory",
+    "title": "AI Save World Tools Directory",
     "discover": "Discover AI",
     "submit": "Submit",
     "newtools": "New Tools",
@@ -12,7 +12,7 @@
     "menu": "menu"
   },
   "Footer": {
-    "title": "Open-source AI Save World Tools Directory",
+    "title": "AI Save World Tools Directory",
     "subTitle": "Discover the best AI tools of 2025 with the AI Save World Tools Directory!",
     "support": "Support",
     "tap4": "AI Save World",
@@ -31,7 +31,7 @@
       "tech": "Technical"
     },
     "1": {
-      "question": "What is Open-source AI Save World Tools Directory?",
+      "question": "What is AI Save World Tools Directory?",
       "answer": "AI Save World Tools Directory is a comprehensive platform that aggregates and categorizes the best AI tools across various domains. Our mission is to help you discover the most innovative AI solutions for your specific needs. We provide detailed information about AI writing tools, marketing tools, SEO tools, creative tools, coding assistants, study aids, research tools, and much more - all in one convenient location."
     },
     "2": {
@@ -75,8 +75,8 @@
       "answer": "AI Save World Directory is an information resource that connects you with AI tools. Each tool has its own terms of service, pricing model, and usage rights as determined by its creators. We recommend reviewing the official terms on each tool's website before use. We clearly mark free tools, freemium options, and paid services to help you make informed decisions."
     },
     "11": {
-      "question": "Is the AI Save World Directory website open source?",
-      "answer": "Yes! We believe in transparency and community collaboration. Our web interface is open source and available on GitHub at https://github.com/6677-ai/AI-Save-World-webui. We welcome contributions from developers who want to help improve the platform. Please star our repository and consider contributing if you have ideas for enhancements."
+      "question": "Is the AI Save World Directory website modifiable?",
+      "answer": "We believe in transparency and community collaboration. Our platform is designed to be flexible and continually improved. If you have suggestions or ideas for enhancements, please feel free to contact us. We're always looking for ways to make our directory more useful and user-friendly."
     },
     "12": {
       "question": "How can I get personalized AI tool recommendations?",
@@ -85,7 +85,7 @@
   },
   "FooterNavigation": {
     "privacyPolicy": {
-      "1-h1": "Privacy Policy for Open-source AI Save World Tools Directory",
+      "1-h1": "Privacy Policy for AI Save World Tools Directory",
       "1-p": "This page is used to inform visitors regarding my policies with the collection, use, and disclosure of Personal Information if anyone decided to use my Service. If you choose to use my Service, then you agree to the collection and use of information in relation to this policy. The Personal Information that I collect is used for providing and improving the Service. I will not use or share your information with anyone except as described in this Privacy Policy. The terms used in this Privacy Policy have the same meanings as in our Terms and Conditions.",
       "2-h2": "1. Information Collection and Use",
       "2-p": "For a better experience, while using our Service, I may require you to provide us with certain personally identifiable information. The information that I request will be retained on your device and is not collected by me in any way. The app does use third-party services that may collect information used to identify you.",
@@ -132,7 +132,7 @@
   },
   "Home": {
     "title": "Discover The Best AI Tools 2025",
-    "subTitle": "Get your favorite AI tools in Open-source AI Save World Tools Directory. AI tools list are updated daily by GPT-4o. It's free to submit here to enhance your SEO now. ",
+    "subTitle": "Get your favorite AI tools in AI Save World Tools Directory. AI tools list are updated daily by GPT-4o. It's free to submit here to enhance your SEO now. ",
     "ai-navigate": "AI Tools List",
     "exploreMore": "Get More AI Tools",
     "checkDetail": "View Detail",
