@@ -287,16 +287,16 @@ async function generateBlogContent(selectedContent) {
     },
     {
       role: 'user',
-      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态周报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。可以添加一些基本样式来提高可读性，但不要修改body、html等影响整体布局的样式：\n\n${selectedContent}`,
+      content: `根据以下筛选的内容，撰写一篇完整的博客文章，主题为"AI行业动态日报：各行各业的AI应用案例(${currentDate})"。文章需包含：1)引人入胜的介绍 2)按行业或应用类型分类的案例分析 3)每个案例的技术实现和价值 4)未来发展趋势 5)结论。确保内容原创、有见地且引用来源。可以添加一些基本样式来提高可读性，但不要修改body、html等影响整体布局的样式：\n\n${selectedContent}`,
     },
   ];
 
   const content = await callXaiApi(messages, 'grok-2', 0.7);
 
-  const title = `AI行业动态周报：各行各业的AI应用案例(${currentDate})`;
+  const title = `AI行业动态日报：各行各业的AI应用案例(${currentDate})`;
 
   // 创建带有时间戳的slug，确保唯一性
-  const slug = `ai-industry-weekly-update-${currentDate}-${timestamp}`.toLowerCase().replace(/[^\w\s\-]/g, '');
+  const slug = `ai-industry-daily-update-${currentDate}-${timestamp}`.toLowerCase().replace(/[^\w\s\-]/g, '');
 
   // 确保内容是完整的HTML结构
   let finalContent = content;
@@ -414,7 +414,7 @@ async function translateContentSequentially(blogPost) {
     // 如果提取失败，使用原始内容
     englishTitle =
       title ||
-      `AI Industry Weekly Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
+      `AI Industry Daily Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
 
     // 确保摘要是纯文本
     if (excerpt) {
@@ -442,8 +442,8 @@ async function translateContentSequentially(blogPost) {
   } catch (error) {
     console.error('生成英文版本失败:', error);
     // 出错时使用简单的英文转换
-    englishTitle = `AI Industry Weekly Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
-    englishExcerpt = 'Weekly update of AI applications across various industries...';
+    englishTitle = `AI Industry Daily Update: AI Application Cases Across Various Industries (${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`;
+    englishExcerpt = 'Daily update of AI applications across various industries...';
     englishContent = blogPost.content;
     englishSlug = blogPost.slug;
   }
@@ -597,9 +597,9 @@ Content: ${blogPost.content}`,
       try {
         // 简单翻译标题映射（备用方法）
         const backupTitles = {
-          tw: `AI產業動態週報：各行各業的AI應用案例(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
-          jp: `AI業界動向週報：各業界のAI応用事例(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
-          es: `Informe semanal de la industria de la IA: Casos de aplicación de la IA en diversas industrias(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
+          tw: `AI產業動態日報：各行各業的AI應用案例(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
+          jp: `AI業界動向日報：各業界のAI応用事例(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
+          es: `Informe diario de la industria de la IA: Casos de aplicación de la IA en diversas industrias(${blogPost.title.match(/\(\d{4}-\d{2}-\d{2}\)/)?.[0] || ''})`,
         };
 
         multilingual[lang.code] = {
