@@ -110,7 +110,7 @@ async function crawlAiTool(url) {
 
     const response = await axios.post(API_URL, requestData, {
       headers: API_HEADERS,
-      timeout: 30000, // 30秒超时
+      timeout: 60000, // 60秒超时
     });
 
     if (response.status === 200) {
