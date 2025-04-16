@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const title = `${post.title} - ${t('title')} - AI Save World`;
   const description = post.excerpt || post.content.substring(0, 160).replace(/<[^>]*>/g, '');
   const publishedTime = post.published_at || post.created_at;
-  const authorName = post.blog_author?.name || 'TAP4.ai';
+  const authorName = post.blog_author?.name || 'AI Save World';
   const ogImage = post.featured_image || `${siteUrl}/images/blog-default.png`;
   const url = `${siteUrl}/${params.locale}/blog/${post.slug}`;
 
@@ -67,7 +67,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
           alt: post.title,
         },
       ],
-      siteName: 'TAP4.ai',
+      siteName: 'AI Save World',
       locale: params.locale,
       tags: post.tags || [],
     },

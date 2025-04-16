@@ -6,7 +6,7 @@ export default function SeoScript() {
   const siteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'TAP4.ai',
+    name: 'AI Save World',
     url: process.env.NEXT_PUBLIC_SITE_URL,
     potentialAction: {
       '@type': 'SearchAction',
@@ -18,7 +18,7 @@ export default function SeoScript() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'TAP4.ai',
+    name: 'AI Save World',
     url: process.env.NEXT_PUBLIC_SITE_URL,
     logo: `${process.env.NEXT_PUBLIC_SITE_URL}/images/logo.png`,
   };

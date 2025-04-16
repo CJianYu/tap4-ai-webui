@@ -43,7 +43,7 @@ export async function generateMetadata({ params: { locale } }: { params: { local
       url: siteUrl,
       title,
       description,
-      siteName: 'TAP4.ai',
+      siteName: 'AI Save World',
       images: [
         {
           url: `${siteUrl}/images/og-image.png`,
