@@ -31,11 +31,15 @@ export const WEBSITE_EXAMPLE =
 export const BACKLINK_HTML =
   '<a href="https://www.aisaveworld.com/" title="AI Save World Tools Directory">AI Save World Tools Directory</a>';
 
-export const WEBSITES = [
+export const STARTUP_LIST = [
   {
     id: '1',
     Website: 'AI Save World',
     Description: 'AI Tools Directory',
+    DA: 50,
+    URL: 'https://www.aisaveworld.com/',
+    Price: 'Free',
+    Tag: '',
   },
   {
     DA: 94,

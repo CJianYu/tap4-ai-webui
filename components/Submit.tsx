@@ -1,9 +1,9 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { toast } from 'react-hot-toast';
-import { useTranslation } from 'react-i18next';
 
 export default function Submit() {
-  const { t } = useTranslation('common');
+  const t = useTranslations('common');
   const websiteName = t('Submit.website');
   const websiteUrl = t('Submit.url');
   const submitButton = t('Submit.submit');
