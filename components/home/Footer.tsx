@@ -53,12 +53,12 @@ export default function Footer() {
       href: 'https://claude.ai/',
     },
     {
-      title: t('AI Save World'),
-      href: 'https://aisaveworld.com/',
+      title: 'ImgSeek AI',
+      href: 'https://imgseek.app/',
     },
     {
-      title: t('Web notes'),
-      href: 'https://webnotes.dev/',
+      title: 'AI Image Generator',
+      href: 'https://imgseek.app/',
     },
   ];
 
