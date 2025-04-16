@@ -1,6 +1,6 @@
 # 开源 AI Save World Web UI
 
-这是一个由[AI Save World工具导航站](https://6677.ai)开源的AI导航站项目。我们的目标是让大家很容易就拥有一个属于自己的AI导航站，
+这是一个由[AI Save World工具导航站](https://aisaveworld.com)开源的AI导航站项目。我们的目标是让大家很容易就拥有一个属于自己的AI导航站，
 收录自己喜欢的AI工具产品。这个项目非常轻量级，维护简单，适合对AI导航站感兴趣的个人开发者，也适合对NextJs有兴趣的学习者，
 欢迎大家fork和star。
 
@@ -74,7 +74,7 @@ NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY，�
 
 ```sh
 # 您的域名
-NEXT_PUBLIC_SITE_URL="https://6677.ai"
+NEXT_PUBLIC_SITE_URL="https://aisaveworld.com"
 
 # 谷歌跟踪ID和广告URL
 GOOGLE_TRACKING_ID="G-XXXXXXX" GOOGLE_ADSENSE_URL="https://xxxx.googlesyndication.com/xxxxx/xxxxx"
@@ -139,7 +139,7 @@ NEXT_PUBLIC_SITE_URL,NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY，�
 
 ```sh
 # 您的域名
-NEXT_PUBLIC_SITE_URL="https://6677.ai"
+NEXT_PUBLIC_SITE_URL="https://aisaveworld.com"
 
 # 谷歌跟踪ID和广告URL
 GOOGLE_TRACKING_ID="G-XXXXXXX"
@@ -206,9 +206,9 @@ pnpm dev
 可以通过AI Save World开源的来自其他导航站的13000+个AI工具列表导入(支持sql和csv)：
 [AI Source List](https://github.com/6677-ai/AI Save World-webui/blob/main/ai_source_list)
 
-## 打算在 6677.ai 上提交您的网站？
+## 打算在 aisaveworld.com 上提交您的网站？
 
-请打开：[AI Save World](https://6677.ai/submit)
+请打开：[AI Save World](https://aisaveworld.com/submit)
 
 ### 想要将您的网站添加到我们的 `/startup` 页面吗？
 
@@ -220,7 +220,7 @@ pnpm dev
 ### AI-Save-World-Directory
 
 全球AI工具的集合。| 收集免费的ChatGPT镜像、替代品、prompt、其他AI工具等。欲了解更多信息，请访
-问：[AI Save World](https://6677.ai)
+问：[AI Save World](https://aisaveworld.com)
 
 ### 如何在网站列表中获得您的首批用户
 

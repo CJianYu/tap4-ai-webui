@@ -1,4 +1,4 @@
-Sitemap: https://www.6677.ai/sitemap.xml
+Sitemap: https://www.aisaveworld.com/sitemap.xml
 
 User-agent: *
 Allow: /

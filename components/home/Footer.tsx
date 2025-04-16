@@ -53,11 +53,7 @@ export default function Footer() {
       href: 'https://claude.ai/',
     },
     {
-      title: 'ImgSeek AI',
-      href: 'https://imgseek.app/',
-    },
-    {
-      title: 'AI Image Generator',
+      title: 'ImgSeek AI Generator',
       href: 'https://imgseek.app/',
     },
   ];

@@ -64,7 +64,7 @@
     },
     "8": {
       "question": "I'm having technical issues with the directory. What should I do?",
-      "answer": "If you encounter any issues while using our directory, please try: clearing your browser cache, using a different browser, or disabling extensions that might interfere with the site. If problems persist, please contact our support team at contact@6677.ai with details about the issue, including screenshots if possible."
+      "answer": "If you encounter any issues while using our directory, please try: clearing your browser cache, using a different browser, or disabling extensions that might interfere with the site. If problems persist, please contact our support team at externalanswer@gmail.com with details about the issue, including screenshots if possible."
     },
     "9": {
       "question": "How is the content in the directory created?",
@@ -109,11 +109,11 @@
     },
     "termsConditions": {
       "1-h1": "Terms of Service for AI Save World Directory",
-      "1-p": "Welcome to AI Save World Directory! Our website, located at https://tap4.ai (\"Website\"), is dedicated to providing you with the ability to create custom images. By accessing or using our Website, you agree to be bound by these Terms of Service (\"Terms\"). If you do not agree with any part of the terms, then you are prohibited from using the Website.",
+      "1-p": "Welcome to AI Save World Directory! Our website, located at https://www.aisaveworld.com (\"Website\"), is dedicated to providing you with the ability to create custom images. By accessing or using our Website, you agree to be bound by these Terms of Service (\"Terms\"). If you do not agree with any part of the terms, then you are prohibited from using the Website.",
       "2-h2": "1. Use License",
       "2-p": "You are granted a limited, non-exclusive, non-transferable license to use the Website and its services for personal, non-commercial purposes. This license does not include any rights to copy, modify, or distribute the Website's content or use it for commercial purposes without our prior written consent.",
       "3-h2": "2. Ownership",
-      "3-p": "The ownership of images generated from text on the Website belongs to the person who created the image. Tap4.ai claims no ownership over images created by users.",
+      "3-p": "The ownership of images generated from text on the Website belongs to the person who created the image. AI Save World claims no ownership over images created by users.",
       "4-h2": "3. User Data Collection",
       "4-p": "We collect personal data (name, email, and payment information) and non-personal data (web cookies) to improve our services. The use of this data is governed by our Privacy Policy, which can be found at",
       "terms-of-service": "terms-of-service",
@@ -122,7 +122,7 @@
       "6-h2": "5. Changes to Terms",
       "6-p": "AI Save World Directory reserves the right, at our sole discretion, to modify or replace these Terms at any time. We will notify users of any changes by email. Your continued use of the Website after any change in these Terms will constitute your acceptance of such changes.",
       "7-h2": "6. Contact Information",
-      "7-p": "If you have any questions about these Terms, please contact us at contact@6677.ai.",
+      "7-p": "If you have any questions about these Terms, please contact us at externalanswer@gmail.com.",
       "last-p": "By using AI Save World Directory, you signify your acceptance of these Terms of Service."
     }
   },
@@ -165,7 +165,7 @@
   },
   "Startup": {
     "title": "Kickstart Your Startup Launch",
-    "subTitle": "The Ultimate List of Websites to Launch and Promote Your Startup Online. For adding to the list or helping to submit for your product to the free list, please email us: contact@tap4.ai. ",
+    "subTitle": "The Ultimate List of Websites to Launch and Promote Your Startup Online. For adding to the list or helping to submit for your product to the free list, please email us: contact@aisaveworld.com. ",
     "updateTime": "Curated and updated daily. Last updated:",
     "table": {
       "da": "DA",
