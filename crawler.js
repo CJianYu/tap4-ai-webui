@@ -171,6 +171,17 @@ async function updateSupabase(data) {
       website_data: JSON.stringify(toolData),
     };
 
+    // 检查必要字段是否为空
+    if (!formattedData.title || !formattedData.content || !formattedData.detail) {
+      console.log('数据不完整，跳过插入/更新:', {
+        url: formattedData.url,
+        title: formattedData.title ? '有值' : '为空',
+        content: formattedData.content ? '有值' : '为空',
+        detail: formattedData.detail ? '有值' : '为空',
+      });
+      return false;
+    }
+
     console.log('格式化后的数据:', {
       name: formattedData.name,
       url: formattedData.url,
@@ -227,7 +238,7 @@ async function main() {
   };
 
   // 设置最大处理数量，避免一次处理太多
-  const MAX_PROCESS = 100;
+  const MAX_PROCESS = 300;
   const processCount = Math.min(aiSourceList.length, MAX_PROCESS);
 
   // 逐个处理AI工具，只处理列表前面的几个
